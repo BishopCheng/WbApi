@@ -54,24 +54,24 @@ namespace SQLServer
             }
         }
 
-        //public IEnumerable<T> Excute<T>(string sqlStr, List<DbParameter> lstParmeters) where T : class
-        //{
-        //    DbCommand dbcommad = null;
-        //    try
-        //    {
-        //        using (CreateDbCommand(sqlStr, lstParmeters, CommandType.Text))
-        //        {
-        //            DbDataReader dtReader = dbcommad.ExecuteReader();
+        public IEnumerable<T> Excute<T>(string sqlStr, List<DbParameter> lstParmeters) where T : class
+        {
+            DbCommand dbcommad = null;
+            try
+            {
+                using (CreateDbCommand(sqlStr, lstParmeters, CommandType.Text))
+                {
+                    DbDataReader dtReader = dbcommad.ExecuteReader();
 
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
+                }
+            }
+            catch (Exception)
+            {
 
-        //        throw;
-        //    }
-           
-        //}
+                throw;
+            }
+
+        }
 
         public int ExcuteNotQuery(string sqlStr, List<DbParameter> Parmeters)
         {

@@ -71,7 +71,7 @@ namespace SQLServer
         /// <param name="sqlStr">sql语句</param>
         /// <param name="lstParmeters">参数集合</param>
         /// <returns></returns>
-        //IEnumerable<T> Excute<T>(string sqlStr,List<DbParameter>lstParmeters) where T :class;
+        IEnumerable<T> Excute<T>(string sqlStr, List<DbParameter> lstParmeters) where T : class;
 
         /// <summary>
         /// 创建SQL命令的方法
