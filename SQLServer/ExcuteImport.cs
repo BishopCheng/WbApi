@@ -1,8 +1,10 @@
-﻿using System;
+﻿using ApiServer.EntityHandling;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Text;
+
 
 namespace SQLServer
 {
@@ -54,6 +56,24 @@ namespace SQLServer
             }
         }
 
+        
+        public DbParameter CreateDbParameter(string name, object value)
+        {
+            DbParameter dbParameter = providerFactory.CreateParameter();
+            dbParameter.ParameterName = name;
+            dbParameter.Value = ((value == null) ? DBNull.Value : value);
+            return dbParameter;
+        }
+
+        public DbParameter CreateDbParmeter(string name, ParameterDirection parameterDirection, object value)
+        {
+            DbParameter dbParameter = providerFactory.CreateParameter();
+            dbParameter.ParameterName = name;
+            dbParameter.Value = ((value == null) ? DBNull.Value : value);
+            dbParameter.Direction = parameterDirection;
+            return dbParameter;
+        }
+
         public IEnumerable<T> Excute<T>(string sqlStr, List<DbParameter> lstParmeters) where T : class
         {
             DbCommand dbcommad = null;
@@ -61,16 +81,25 @@ namespace SQLServer
             {
                 using (CreateDbCommand(sqlStr, lstParmeters, CommandType.Text))
                 {
-                    DbDataReader dtReader = dbcommad.ExecuteReader();
+                    DbDataReader dtReader = dbcommad.ExecuteReader();    //执行sql语句
+                    IEnumerable<T> result = dtReader.ReadToList<T>();    //将执行后得到的结果 写入IEnumerable
+                    dbcommad.Connection.Close();                         //关闭链接
+                    return result;                                       //返回查询结果
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
-
+            finally
+            {
+                if(dbcommad !=null && dbcommad.Connection.State == ConnectionState.Open)
+                {
+                    dbcommad.Connection.Close();
+                    dbcommad.Connection.Dispose();
+                }
+            }
         }
 
         public int ExcuteNotQuery(string sqlStr, List<DbParameter> Parmeters)

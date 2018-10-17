@@ -72,6 +72,8 @@ namespace SQLServer
         /// <param name="lstParmeters">参数集合</param>
         /// <returns></returns>
         IEnumerable<T> Excute<T>(string sqlStr, List<DbParameter> lstParmeters) where T : class;
+        
+        
 
         /// <summary>
         /// 创建SQL命令的方法
@@ -81,5 +83,22 @@ namespace SQLServer
         /// <param name="commandType">command类型</param>
         /// <returns></returns>
         DbCommand CreateDbCommand(string sql, List<DbParameter> lstDbParameter, CommandType commandType);
+
+        /// <summary>
+        /// 创建数据参数实体
+        /// </summary>
+        /// <param name="name">实体名称</param>
+        /// <param name="value">实体值</param>
+        /// <returns></returns>
+        DbParameter CreateDbParameter(string name, object value);
+
+        /// <summary>
+        /// 创建带说明的数据参数实体
+        /// </summary>
+        /// <param name="name">实体名称</param>
+        /// <param name="parameterDirection">参数说明</param>
+        /// <param name="value">实体值</param>
+        /// <returns></returns>
+        DbParameter CreateDbParmeter(string name, ParameterDirection parameterDirection, object value);
     }
 }

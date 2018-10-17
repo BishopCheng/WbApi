@@ -47,6 +47,25 @@ namespace ApiServer.EntityHandling
             }
         }
 
+
+        /// <summary>
+        /// 批量读取实体模型属性
+        /// </summary>
+        /// <typeparam name="T">实体模型</typeparam>
+        /// <param name="dataReader">读取器</param>
+        /// <returns></returns>
+        public static IList<T> ReadToList<T>(this IDataReader dataReader) {
+            IList<T> list = new List<T>();
+            var bulid = DataReaderBulider.IDataReaderEntityBulider<T>.CreateBulider(dataReader);
+            while (dataReader.Read())
+            {
+                var Entity = bulid.Bulid(dataReader);
+                list.Add(Entity);
+            }
+            return list;
+        }
+
+
         /// <summary>
         /// 判断数据源是否为空
         /// </summary>
