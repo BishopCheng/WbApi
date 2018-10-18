@@ -330,5 +330,35 @@ namespace SQLServer
             }
             return num;
         }
+
+        public PageData<T> ExecutePagerData<T>(string sqlCount, string sqlData, List<DbParameter> lstDbParmeters) where T : class
+        {
+            PageData<T> pageData = new PageData<T>();
+            DbConnection dbConnection = null;
+            try
+            {
+                dbConnection = providerFactory.CreateConnection();
+                dbConnection.ConnectionString = connectionString;
+                dbConnection.Open();
+                DbCommand dbCommand = providerFactory.CreateCommand();
+                dbCommand.CommandText = sqlCount;
+                dbCommand.CommandType = CommandType.Text;
+                dbCommand.Connection = dbConnection;
+                dbCommand.CommandTimeout = commandTimeOut;
+                if(lstDbParmeters !=null && lstDbParmeters.Count > 0)
+                {
+                    dbCommand.Parameters.AddRange(lstDbParmeters.ToArray());
+                }
+                object obj = dbCommand.ExecuteScalar();    //ExecuteScalar方法，执行过后返回一个对象
+            }
+            catch(Exception ex)
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
     }
 }
