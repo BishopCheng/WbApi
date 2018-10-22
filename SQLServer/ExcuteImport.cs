@@ -350,6 +350,27 @@ namespace SQLServer
                     dbCommand.Parameters.AddRange(lstDbParmeters.ToArray());
                 }
                 object obj = dbCommand.ExecuteScalar();    //ExecuteScalar方法，执行过后返回一个对象
+                int result = 0;
+                //此处执行两个方法，一个是获取受到影响的条目数量，一个是查询得到的数据
+                if (obj != null)
+                {
+                    int.TryParse(obj.ToString(), out result);  //此处的obj中装载的是查询到结果的条目数量
+                }
+                pageData.Total = result;
+                //以下是获取具体数据的方法
+                dbCommand.Parameters.Clear();
+                DbCommand dbcommand2 = providerFactory.CreateCommand();
+                dbcommand2.CommandText = sqlData;
+                dbcommand2.CommandType = CommandType.Text;
+                dbcommand2.Connection = dbConnection;
+                dbcommand2.CommandTimeout = commandTimeOut;
+                if (lstDbParmeters != null && lstDbParmeters.Count > 0)
+                {
+                    dbcommand2.Parameters.AddRange(lstDbParmeters.ToArray());
+                }
+                object obj2 = dbcommand2.ExecuteScalar();
+                //将获取的数据对象通过ReadToList方法装入集合
+                IList<T> 
             }
             catch(Exception ex)
             {
