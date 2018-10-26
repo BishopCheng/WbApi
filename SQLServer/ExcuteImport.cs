@@ -368,17 +368,24 @@ namespace SQLServer
                 {
                     dbcommand2.Parameters.AddRange(lstDbParmeters.ToArray());
                 }
-                object obj2 = dbcommand2.ExecuteScalar();
+                DbDataReader obj2 = dbcommand2.ExecuteReader();
                 //将获取的数据对象通过ReadToList方法装入集合
-                IList<T> 
+                IEnumerable<T> enumerable = new List<T>();
+                pageData.Rows = obj2.ReadToList<T>();
+                dbcommand2.Parameters.Clear();
+                return pageData;
             }
             catch(Exception ex)
             {
-
+                throw ex;
             }
             finally
             {
-
+                if (dbConnection.State == ConnectionState.Open)
+                {
+                    dbConnection.Close();
+                    dbConnection.Dispose();
+                }
             }
         }
     }
