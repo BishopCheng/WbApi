@@ -14,6 +14,6 @@ namespace SQLServer
             public IEnumerable<T> Rows; //行数
 
             public int Total = 0;       //总数
-        
+          
     }
 }
