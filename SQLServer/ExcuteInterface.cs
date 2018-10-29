@@ -108,6 +108,13 @@ namespace SQLServer
         /// <param name="parameterDirection">参数说明</param>
         /// <param name="value">实体值</param>
         /// <returns></returns>
-        DbParameter CreateDbParmeter(string name, ParameterDirection parameterDirection, object value);
+        DbParameter CreateDbParameter(string name, ParameterDirection parameterDirection, object value);
+
+        /// <summary>
+        /// 数据参数复制
+        /// </summary>
+        /// <param name="dbParameter">传入的数据参数</param>
+        /// <returns></returns>
+        DbParameter DbParameterCopy(DbParameter dbParameter);
     }
 }

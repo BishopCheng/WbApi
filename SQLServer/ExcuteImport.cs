@@ -65,13 +65,18 @@ namespace SQLServer
             return dbParameter;
         }
 
-        public DbParameter CreateDbParmeter(string name, ParameterDirection parameterDirection, object value)
+        public DbParameter CreateDbParameter(string name, ParameterDirection parameterDirection, object value)
         {
             DbParameter dbParameter = providerFactory.CreateParameter();
             dbParameter.ParameterName = name;
             dbParameter.Value = ((value == null) ? DBNull.Value : value);
             dbParameter.Direction = parameterDirection;
             return dbParameter;
+        }
+
+        public DbParameter DbParameterCopy(DbParameter dbParameter)
+        {
+            return CreateDbParameter(dbParameter.ParameterName, dbParameter.Direction, dbParameter.Value);
         }
 
         public IEnumerable<T> Excute<T>(string sqlStr, List<DbParameter> lstParmeters) where T : class
@@ -388,5 +393,7 @@ namespace SQLServer
                 }
             }
         }
+
+        
     }
 }
