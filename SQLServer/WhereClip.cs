@@ -74,12 +74,86 @@ namespace SQLServer
                         {
                             for (int num = list.Count-2; num >=0; num--)
                             {
-                                text = ((!text.Contains(list[num].ParameterName + ",")) ? text.Replace(list[num].ParameterName + "  ", list[num].ParameterName + "_" + count + " ") : text.Replace(list[num].ParameterName + ",", list[num].ParameterName + "_" + count + ","));
+                                text = ((!text.Contains(list[num].ParameterName + ",")) ? text.Replace(list[num].ParameterName + " ", list[num].ParameterName + "_" + count + " ") : text.Replace(list[num].ParameterName + ",", list[num].ParameterName + "_" + count + ","));
+                                list[num].ParameterName = list[num].ParameterName + "_" + count; 
                             }
                         }
+                        lstDbParameter.AddRange(list);  //将转换好的list装入参数集合容器
+                        stringBuilder.Append(" " + text);
                     }
                 }
             }
+            else
+            {
+                using (IEnumerator<object> enumerator2 = GetEnumerator())
+                {
+                    while (enumerator2.MoveNext())
+                    {
+                        object current = enumerator2.Current;
+                        //如果是符号,将其转换成字符串类型
+                        if(current is Symbol)
+                        {
+                            stringBuilder.Append(current.ToString());
+                        }
+                        else if(current is ConditionItem)
+                        {
+                            ConditionItem conditionItem2 = new ConditionItem();
+                            conditionItem2 = current as ConditionItem;
+                            List<DbParameter> lstDbParameter2 = new List<DbParameter>();
+                            if (conditionItem2.lstDbParmeters != null)
+                            {
+                                for (int j = 0; j < conditionItem2.lstDbParmeters.Count; j++)
+                                {
+                                    lstDbParameter2.Add(excuteImport.DbParameterCopy(conditionItem2.lstDbParmeters[j]));
+                                }
+                            }
+                            string text2 = conditionItem2.sqlStr;
+                            int count3 = lstDbParameter.Count;
+                            int count4 = lstDbParameter2.Count;
+                            if (count4 > 0)
+                            {
+                                text2 = text2.Replace(lstDbParameter2[count4 - 1].ParameterName, lstDbParameter2[count4 - 1].ParameterName + "_" + count3);
+                                lstDbParameter2[count4 - 1].ParameterName = lstDbParameter2[count4 - 1].ParameterName + "_" + count3;
+                            }
+                            else if(count4>1)
+                            {
+                                for (int num2 = lstDbParameter2.Count-2; num2 >=0; num2--)
+                                {
+                                    text2 = ((!text2.Contains(lstDbParameter2[num2].ParameterName + ",")) ? text2.Replace(lstDbParameter2[num2].ParameterName + " ", lstDbParameter2[num2].ParameterName + "_" + count3 + " ") : text2.Replace(lstDbParameter2[num2].ParameterName + ",", lstDbParameter2[num2].ParameterName + "_" + count3 + "_"));
+                                    lstDbParameter2[num2].ParameterName = lstDbParameter2[num2] + "_" + count3;
+                                }
+                            }
+                            lstDbParameter.AddRange(lstDbParameter2);
+                            stringBuilder.Append(" " + text2);
+                        }
+                    }
+
+                }
+
+            }
+            //获取whereClip的String格式
+            stringBuilder.Append(" ");
+            sqlWhereClip = stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// 重写Tostring方式
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "";
+        }
+
+        /// <summary>
+        /// 将传入的对象转换成sql语句字符串
+        /// </summary>
+        /// <param name="value">传入的对象</param>
+        /// <returns></returns>
+        private string DataToSQL(object value)
+        {
+            //允许传入空值，当给出空值时，返回NULL以确保不会报错
+            return null;
         }
     }
 }
