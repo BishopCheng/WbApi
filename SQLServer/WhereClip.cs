@@ -142,7 +142,58 @@ namespace SQLServer
         /// <returns></returns>
         public override string ToString()
         {
-            return "";
+            StringBuilder stringBuilder = new StringBuilder();
+            if (flag)
+            {
+                using(IEnumerator<object>enumerator = GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        ConditionItem conditionItem = (ConditionItem)enumerator.Current;
+                        if (stringBuilder.Length > 0)
+                        {
+                            stringBuilder.Append(" AND ");
+                        }
+                        string text = conditionItem.sqlStr;  //转换成text
+                        if (conditionItem.lstDbParmeters != null)
+                        {
+                            foreach (DbParameter item in conditionItem.lstDbParmeters)
+                            {
+                                text = text.Replace(item.ParameterName, DataToSQL(item.Value));  //将ParameterName转换成SQL格式
+                            }
+                        }
+                        stringBuilder.Append(" " + text);
+                    }
+                }
+            }
+            else
+            {
+                using (IEnumerator<object>enumerator3 = GetEnumerator())
+                {
+                    while (enumerator3.MoveNext())
+                    {
+                        object current2 = enumerator3.Current;
+                        if(current2 is Symbol)
+                        {
+                            stringBuilder.Append(current2.ToString());
+                        }
+                        else if(current2 is ConditionItem)
+                        {
+                            ConditionItem conditionItem2 =current2 as ConditionItem; //将当前参数转换成ConditionItem类型
+                            string text2 = conditionItem2.sqlStr;
+                            if (conditionItem2.lstDbParmeters != null)
+                            {
+                                foreach (DbParameter item in conditionItem2.lstDbParmeters)
+                                {
+                                    text2 = text2.Replace(item.ParameterName, DataToSQL(item.Value));
+                                }
+                            }
+                            stringBuilder.Append(" " + text2);
+                        }
+                    }
+                }
+            }
+            return stringBuilder.ToString();
         }
 
         /// <summary>
@@ -152,8 +203,38 @@ namespace SQLServer
         /// <returns></returns>
         private string DataToSQL(object value)
         {
-            //允许传入空值，当给出空值时，返回NULL以确保不会报错
-            return null;
+            //允许传入空值，当给出空值时，返回字符串“NULL”以确保不会报错
+            if (value != null)
+            {
+                switch (value.GetType().ToString().Replace("System.", ""))
+                {
+                    case "String":
+                        return "'" + value + "'";
+                    case "Int64":
+                        return value.ToString();
+                    case "Byte":
+                        return "'" + value + "'";
+                    case "Byte[]":
+                        return "'" + value + "'";
+                    case "Boolean":
+                        return "'" + value + "'";
+                    case "DateTime":
+                        return "'" + value + "'";
+                    case "Decimal":
+                        return value.ToString();
+                    case "Double":
+                        return value.ToString();
+                    case "Int32":
+                        return value.ToString();
+                    case "Int16":
+                        return value.ToString();
+                    case "Guid":
+                        return "'" + value + "'";
+                    default:
+                        return value.ToString();
+                }
+            }
+            return "null";
         }
     }
 }
