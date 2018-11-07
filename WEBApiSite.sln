@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiServer.DataContext", "Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLServer", "SQLServer\SQLServer.csproj", "{3282D810-96A6-4C3F-AA71-E91F028FB916}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiServer.EntityHandling", "ApiServer.EntityHandling\ApiServer.EntityHandling.csproj", "{318C022A-CD32-4CA1-95F8-AEC81CC81948}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiServer.EntityHandling", "ApiServer.EntityHandling\ApiServer.EntityHandling.csproj", "{318C022A-CD32-4CA1-95F8-AEC81CC81948}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBFactory", "DBFactory\DBFactory.csproj", "{4F20AFED-E031-4E5E-AEDF-1DAACA7742C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{318C022A-CD32-4CA1-95F8-AEC81CC81948}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{318C022A-CD32-4CA1-95F8-AEC81CC81948}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{318C022A-CD32-4CA1-95F8-AEC81CC81948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F20AFED-E031-4E5E-AEDF-1DAACA7742C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F20AFED-E031-4E5E-AEDF-1DAACA7742C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F20AFED-E031-4E5E-AEDF-1DAACA7742C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F20AFED-E031-4E5E-AEDF-1DAACA7742C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

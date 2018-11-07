@@ -4,8 +4,4 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SQLServer\SQLServer.csproj" />
-  </ItemGroup>
-
 </Project>
