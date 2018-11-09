@@ -41,7 +41,9 @@ namespace SQLSettings.implement
 
         string ISetting.DeleteModel_sql_WhereClip { get { return "DELETE FROM {0} WHERE {1}"; } }
 
-        string ISetting.First_sql => throw new NotImplementedException();
+        string ISetting.First_sql { get { return "SELECT * FROM {0}{1} LIMIT 1"; } }
+
+        string ISetting.Last_sql { get { return "SELECT * FROM {0}{1} ORDER BY object_id DESC LIMIT 1"; } }
 
         string ISetting.Insert_sql { get { return "INSERT {0} {1}"; } }
 
@@ -94,21 +96,21 @@ namespace SQLSettings.implement
 
         string ISetting.Column_Replace { get { return "REPLACE({0},{1},{2})"; } }
 
-        string ISetting.Column_ToDate { get { return "STR_TO_DATE({0},'%Y-%m-%d')"; } }
+        string ISetting.Column_ToDate { get { return "STR_TO_DATE({0}, '%Y-%m-%d')"; } }
 
-        string ISetting.Column_ToDateTime { get { return "STR_TO_DATE({0},'%Y-%m-%d %H:%i:%s')"; } }
+        string ISetting.Column_ToDateTime { get { return "STR_TO_DATE({0}, '%Y-%m-%d %H:%i:%s')"; } }
 
-        string ISetting.Column_ToDateString { get { return "DATE_FROMAT({0},'%Y-%m-%d')"; } }
+        string ISetting.Column_ToDateString { get { return "DATE_FORMAT({0}, '%Y-%m-%d')"; } }
 
-        string ISetting.Column_ToDateTimeString { get { return "DATE_FORMAT({0},'%Y-%m-%d %H:%i:%s')"; } }
+        string ISetting.Column_ToDateTimeString { get { return "DATE_FORMAT({0}, '%Y-%m-%d %H:%i:%s')"; } }
 
-        string ISetting.GetColumn_ToDate => throw new NotImplementedException();
+        string ISetting.GetColumn_ToDate { get { return "STR_TO_DATE({0}, '%Y-%m-%d')"; } }
 
-        string ISetting.GetColumn_ToDateTime => throw new NotImplementedException();
+        string ISetting.GetColumn_ToDateTime { get { return "STR_TO_DATE({0}, '%Y-%m-%d %H:%i:%s')"; } }
 
-        string ISetting.GetColumn_ToDateString => throw new NotImplementedException();
+        string ISetting.GetColumn_ToDateString { get { return "DATE_FORMAT({0}, '%Y-%m-%d')"; } }
 
-        string ISetting.GetColumn_ToDateTimeString => throw new NotImplementedException();
+        string ISetting.GetColumn_ToDateTimeString { get { return "DATE_FORMAT({0}, '%Y-%m-%d %H:%i:%s')"; } }
 
         string ISetting.Column_Count { get { return "Count({0})"; } }
 
@@ -120,55 +122,71 @@ namespace SQLSettings.implement
 
         string ISetting.Column_CharNum { get { return "LENGTH({0})-LENGTH(REPLACE({1},{2}{3}0,''))={4}{5}1"; } }
 
-        string ISetting.ConditionItem_Equals_object_null => throw new NotImplementedException();
+        string ISetting.ConditionItem_Equals_object_null { get { return " {0} is null "; } }
 
-        string ISetting.ConditionItem_Equals_object => throw new NotImplementedException();
+        string ISetting.ConditionItem_Equals_object { get { return " {0}={1}{2 }"; } }
 
-        string ISetting.ConditionItem_In_object => throw new NotImplementedException();
+        string ISetting.ConditionItem_In_object { get { return " {0} IN ({1})"; } }
 
-        string ISetting.ConditionItem_In_objects => throw new NotImplementedException();
+        string ISetting.ConditionItem_In_objects { get { return " {0} IN ({1})"; } }
+        string ISetting.CondtionItem_NotIn_object { get { return " {0} NOT IN ({1})"; } }
+        string ISetting.CondtionItem_NotIn_objects { get { return " {0} NOT IN ({1})"; } }
 
-        string ISetting.CondtionItem_NotIn_object => throw new NotImplementedException();
+        string ISetting.ConditionItem_Contains { get { return " {0} LIKE {1}{2}"; } }
 
-        string ISetting.CondtionItem_NotIn_objects => throw new NotImplementedException();
+        string ISetting.ConditonItem_NotContains { get { return " NOT {0} LIKE {1}{2}"; } }
 
-        string ISetting.ConditionItem_Contains => throw new NotImplementedException();
+        string ISetting.ConditionItem_StartWith { get { return " {0} LIKE {1}{2}"; } }
 
-        string ISetting.ConditonItem_NotContains => throw new NotImplementedException();
 
-        string ISetting.ConditionItem_StartWith => throw new NotImplementedException();
+        string ISetting.ConditionItem_NotStartWith { get { return " NOT {0} LIKE {1}{2}"; } }
 
-        string ISetting.ConditionItem_NotStartWith => throw new NotImplementedException();
 
-        string ISetting.ConditionItem_EndWith => throw new NotImplementedException();
+        string ISetting.ConditionItem_EndWith { get { return " {0} LIKE {1}{2}"; } }
 
-        string ISetting.ConditionItem_NotEndWith => throw new NotImplementedException();
+        string ISetting.ConditionItem_NotEndWith { get { return " NOT {0} LIKE {1}{2}"; } }
 
-        string ISetting.ConditionItem_Larger => throw new NotImplementedException();
+        string ISetting.ConditionItem_Larger { get { return " {0}>{1}{2}"; } }
+        string ISetting.ConditionItem_Smaller { get { return " {0}<{1}{2}"; } }
 
-        string ISetting.ConditionItem_Smaller => throw new NotImplementedException();
+        string ISetting.ConditionItem_NotLarger { get { return " {0}<={1}{2}"; } }
 
-        string ISetting.ConditionItem_NotLarger => throw new NotImplementedException();
+        string ISetting.ConditionItem_NotSmaller { get { return " {0}>={1}{2}"; } }
 
-        string ISetting.ConditionItem_NotSmaller => throw new NotImplementedException();
+        string ISetting.ConditionItem_LengthEquals { get { return " LENGTH({0})={1}{2}"; } }
 
-        string ISetting.ConditionItem_LengthEquals => throw new NotImplementedException();
+        string ISetting.ConditionItem_LengthLarger { get { return " LENGTH({0})>{1}{2}"; } }
 
-        string ISetting.ConditionItem_LengthLarger => throw new NotImplementedException();
+        string ISetting.ConditionItem_LengthSmaller { get { return " LENGTH({0})<{1}{2}"; } }
 
-        string ISetting.ConditionItem_LengthSmaller => throw new NotImplementedException();
+        string ISetting.ConditionItem_LengthNotLarger { get { return " LENGTH({0})<={1}{2}"; } }
 
-        string ISetting.ConditionItem_LengthNotLarger => throw new NotImplementedException();
+        string ISetting.ConditionItem_LengthNotSmaller { get { return " LENGTH(0)>={1}{2}"; } }
 
-        string ISetting.ConditionItem_LengthNotSmaller => throw new NotImplementedException();
+        string ISetting.ConditionItem_BetweenColumn { get { return " {0} BETWEEN {1} AND {2}"; } }
 
-        string ISetting.ConditionItem_BetweenColumn => throw new NotImplementedException();
-
-        string ISetting.ConditionItem_BetweenObject => throw new NotImplementedException();
+        string ISetting.ConditionItem_BetweenObject { get { return " {0} BETWEEN {1}{2}0 AND {3}{4}1"; } }
 
         List<string> ISetting.Search_sql(string tableName, string selectFiled, string getJoin, string sqlWhereClip, string orderby, string groupByStr, int pageIndex, int pageSize, bool isAll, string index, int version)
         {
-            throw new NotImplementedException();
+            //如果Group By字段不为空,在语句中加入group by 条件
+            if (!string.IsNullOrEmpty(groupByStr))
+            {
+                groupByStr = " Group By " + groupByStr;
+            }
+            List<string> list; //定义sql语句集合
+            if (!isAll)  //带条件搜索
+            {
+                list = new List<string>();
+                list.Add("SELECT COUNT(0) FROM " + tableName + getJoin + " WHERE " + sqlWhereClip);
+                list.Add("SELECT " + selectFiled + " FROM " + tableName + getJoin + " WHERE " + sqlWhereClip + " ORDER BY " + orderby + groupByStr + " LIMIT " + (pageIndex - 1) * pageSize + "," + pageSize);
+                return list;
+            }
+            //不带搜索条件
+            list = new List<string>();
+            list.Add("SELECT COUNT(0) FROM " + tableName + getJoin);
+            list.Add("SELECT " + selectFiled + " FROM " + tableName + getJoin + " ORDER BY " + orderby + groupByStr + " LIMIT " + (pageIndex - 1) * pageSize + "," + pageSize);
+            return list;
         }
     }
 }

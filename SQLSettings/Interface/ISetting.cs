@@ -130,6 +130,15 @@ namespace SQLSettings.Interface
         {
             get;
         }
+
+        /// <summary>
+        /// 选取最后一个对象(sql语句)
+        /// </summary>
+        string Last_sql
+        {
+            get;
+        }
+
         /// <summary>
         /// 插入对象
         /// </summary>

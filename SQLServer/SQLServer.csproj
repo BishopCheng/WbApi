@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiServer.EntityHandling\ApiServer.EntityHandling.csproj" />
+    <ProjectReference Include="..\SQLSettings\SQLSettings.csproj" />
   </ItemGroup>
 
 </Project>

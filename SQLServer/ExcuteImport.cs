@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Text;
-
+using SQLSettings;
+using SQLSettings.Interface;
 
 namespace SQLServer
 {
@@ -16,9 +17,11 @@ namespace SQLServer
     /// </summary>
     public sealed class ExcuteImport : ExcuteInterface
     {
+        
         private string connectionString = string.Empty; //创建链接字符串
-        private DbProviderFactory providerFactory;   //创建数据源类工厂
-        private int commandTimeOut = 0;              //将延时设定为0
+        public ISetting sqlSetting;                     //通过接口引用SQL字符串拼接类
+        private DbProviderFactory providerFactory;     //创建数据源类工厂
+        private int commandTimeOut = 0;                //将延时设定为0
         public DbCommand CreateDbCommand(string sql, List<DbParameter> lstDbParameter, CommandType commandType)
         {
             DbConnection dbconection = null;  //创建链接
