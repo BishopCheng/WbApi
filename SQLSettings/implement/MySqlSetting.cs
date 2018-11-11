@@ -126,6 +126,9 @@ namespace SQLSettings.implement
 
         string ISetting.ConditionItem_Equals_object { get { return " {0}={1}{2 }"; } }
 
+        string ISetting.ConditonItem_NotEquals_object_null { get { return " {0} is null "; } }
+        string ISetting.ConditionItem_NotEquals_object { get { return " {0}<>{1}{2 }"; } }
+
         string ISetting.ConditionItem_In_object { get { return " {0} IN ({1})"; } }
 
         string ISetting.ConditionItem_In_objects { get { return " {0} IN ({1})"; } }
@@ -166,6 +169,8 @@ namespace SQLSettings.implement
         string ISetting.ConditionItem_BetweenColumn { get { return " {0} BETWEEN {1} AND {2}"; } }
 
         string ISetting.ConditionItem_BetweenObject { get { return " {0} BETWEEN {1}{2}0 AND {3}{4}1"; } }
+
+   
 
         List<string> ISetting.Search_sql(string tableName, string selectFiled, string getJoin, string sqlWhereClip, string orderby, string groupByStr, int pageIndex, int pageSize, bool isAll, string index, int version)
         {

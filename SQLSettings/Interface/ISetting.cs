@@ -426,6 +426,14 @@ namespace SQLSettings.Interface
         {
             get;
         }
+        string ConditionItem_NotEquals_object
+        {
+            get;
+        }
+        string ConditonItem_NotEquals_object_null
+        {
+            get;
+        }
         /// <summary>
         /// 条件对象(在集合中)
         /// </summary>

@@ -71,6 +71,99 @@ namespace SQLServer
         {
             return new Column(string.Format(excuteImport.sqlSetting.Column_ToDateString, GetName), excuteImport);
         }
-         
+        public Column ToDateTimeString()
+        {
+            return new Column(string.Format(excuteImport.sqlSetting.Column_ToDateTimeString, GetName), excuteImport);
+        }
+        public Column Length()
+        {
+            return new Column(string.Format(excuteImport.sqlSetting.Column_Length, GetName), excuteImport);
+        }
+        public Column SubString()
+        {
+            return new Column(string.Format(excuteImport.sqlSetting.Column_Substring, GetName), excuteImport);
+        }
+        public Column Replace()
+        {
+            return new Column(string.Format(excuteImport.sqlSetting.Column_Replace, GetName), excuteImport);
+        }
+        public Column Count()
+        {
+            return new Column(string.Format(excuteImport.sqlSetting.Column_Count, GetName), excuteImport);
+        }
+        public Column Sum()
+        {
+            return new Column(string.Format(excuteImport.sqlSetting.Column_Sum, GetName), excuteImport);
+        }
+        public Column Max()
+        {
+            return new Column(string.Format(excuteImport.sqlSetting.Column_Max, GetName), excuteImport);
+        }
+        public Column Min()
+        {
+            return new Column(string.Format(excuteImport.sqlSetting.Column_Min, GetName), excuteImport);
+        }
+        public ConditionItem CharNum(char c,int num)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.Column_CharNum, GetName, GetName, excuteImport.sqlSetting.Flag, Name, excuteImport.sqlSetting.Flag, Name);
+            ConditionItem conditionItem2 = conditionItem;
+            conditionItem2.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name + "0", c));
+            conditionItem2.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name + "1", num));
+            return conditionItem2;
+        }
+        public new ConditionItem Equals(object value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            if(value == null)
+            {
+                //比对对象为空,则调用object_null方法
+                conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_Equals_object_null, GetName);
+                conditionItem.lstDbParmeters = null;
+            }
+            else
+            {
+                //比对对象不为空,则调用object_notnull方法
+                conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_Equals_object, GetName,excuteImport.sqlSetting.Flag,Name);
+                conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            }
+            return conditionItem;
+        }
+
+        public ConditionItem NotEquals(object value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            if (value == null)
+            {
+                conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditonItem_NotEquals_object_null, GetName);
+                conditionItem.lstDbParmeters = null;
+            }
+            else {
+                conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_NotEquals_object, GetName, excuteImport.sqlSetting.Flag, Name);
+                conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            }
+            return conditionItem;
+        }
+
+        public ConditionItem In(Collection<object> value)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            ConditionItem conditionItem = new ConditionItem();
+            int count = value.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (stringBuilder.Length > 0) {
+                    stringBuilder.Append(",");  //如果值不为空,则加入逗号,准备插入条件
+                    stringBuilder.Append(excuteImport.sqlSetting.Flag + Name + i);
+                    conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name + i, value[i]));
+
+                }
+            }
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_In_objects, GetName, stringBuilder.ToString());
+            return conditionItem;
+
+        }
+
+        public ConditionItem 
     }
 }
