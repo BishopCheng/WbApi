@@ -132,8 +132,8 @@ namespace SQLSettings.implement
         string ISetting.ConditionItem_In_object { get { return " {0} IN ({1})"; } }
 
         string ISetting.ConditionItem_In_objects { get { return " {0} IN ({1})"; } }
-        string ISetting.CondtionItem_NotIn_object { get { return " {0} NOT IN ({1})"; } }
-        string ISetting.CondtionItem_NotIn_objects { get { return " {0} NOT IN ({1})"; } }
+        string ISetting.ConditionItem_NotIn_object { get { return " {0} NOT IN ({1})"; } }
+        string ISetting.ConditionItem_NotIn_objects { get { return " {0} NOT IN ({1})"; } }
 
         string ISetting.ConditionItem_Contains { get { return " {0} LIKE {1}{2}"; } }
 

@@ -451,13 +451,13 @@ namespace SQLSettings.Interface
         /// <summary>
         /// 条件对象(不在集合中)
         /// </summary>
-        string CondtionItem_NotIn_object
+        string ConditionItem_NotIn_object
         {
             get;
         }
         /// 条件对象(不在集合中,多个)
         /// </summary>
-        string CondtionItem_NotIn_objects
+        string ConditionItem_NotIn_objects
         {
             get;
         }

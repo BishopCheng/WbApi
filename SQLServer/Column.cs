@@ -152,18 +152,120 @@ namespace SQLServer
             int count = value.Count;
             for (int i = 0; i < count; i++)
             {
-                if (stringBuilder.Length > 0) {
+                if (stringBuilder.Length > 0)
+                {
                     stringBuilder.Append(",");  //如果值不为空,则加入逗号,准备插入条件
+                }
                     stringBuilder.Append(excuteImport.sqlSetting.Flag + Name + i);
                     conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name + i, value[i]));
 
                 }
-            }
             conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_In_objects, GetName, stringBuilder.ToString());
             return conditionItem;
 
         }
 
-        public ConditionItem 
+        public ConditionItem In(object value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_In_objects, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag, value));
+            return conditionItem;
+        }
+       
+        public ConditionItem NotIn(Collection<object> value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            StringBuilder stringBuilder = new StringBuilder();
+            int count = value.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (stringBuilder.Length > 0)
+                {
+                    stringBuilder.Append(",");
+                }
+                stringBuilder.Append(excuteImport.sqlSetting.Flag + Name + i);
+                conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name + i, value[i]));
+            }
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_NotIn_objects, GetName, stringBuilder.ToString());
+            return conditionItem;
+        }
+
+        public ConditionItem NotIn(object value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_NotIn_objects, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            return conditionItem;
+        }
+
+        public ConditionItem Contains(string value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_Contains, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, "%" + value + "%"));
+            return conditionItem;
+        }
+
+        public ConditionItem NotContains(string value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditonItem_NotContains, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, "%" + value + "%"));
+            return conditionItem;
+        }
+
+        public ConditionItem StartWith(string value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_StartWith, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value+"%"));
+            return conditionItem;
+        }
+
+        public ConditionItem NotStartWith(string value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_NotStartWith, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value + "%"));
+            return conditionItem;
+        }
+
+        public ConditionItem EndWith(string value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_EndWith, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name,  "%" + value));
+            return conditionItem;
+        }
+
+        public ConditionItem NotEndWith(string value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_NotEndWith, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, "%" + value));
+            return conditionItem;
+        }
+
+        public ConditionItem Larger(string value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_Larger, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            return conditionItem;
+        }
+
+        public ConditionItem Smaller(string value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_Smaller, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            return conditionItem;
+        }
+
+        public ConditionItem NotLarger(string value)
+        {
+
+        }
     }
 }
