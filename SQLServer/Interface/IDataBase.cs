@@ -4,7 +4,7 @@ using System.Text;
 using System.Data.Common;
 using SQLServer;
 
-namespace ApiServer.Interface
+namespace SQLServer
 {
     /// <summary>
     /// 数据库接口(定义成抽象类)

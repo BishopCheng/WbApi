@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 
-namespace Interface
+namespace ApiServer.Interface
 {
     /// <summary>
     /// 通用接口

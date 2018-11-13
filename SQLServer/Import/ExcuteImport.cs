@@ -397,6 +397,113 @@ namespace SQLServer
             }
         }
 
-        
+        public DataSet RunProcedure(string storedProcedureName, List<DbParameter> dbParameters, string tableName)
+        {
+            DbCommand dbCommand = null;
+            try
+            {
+                using (dbCommand = CreateDbCommand(storedProcedureName, dbParameters, CommandType.StoredProcedure)) //创建Command
+                {
+                    using (DbDataAdapter dataAdapter = providerFactory.CreateDataAdapter())  //创建数据适配器
+                    {
+                        dataAdapter.SelectCommand = dbCommand;
+                        DataSet dataSet = new DataSet();       //新建DataSet
+                        dataAdapter.Fill(dataSet, tableName);  //填充适配器
+                        dbCommand.Parameters.Clear();          //清空参数列表
+                        return dataSet;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                if(dbCommand.Connection.State==ConnectionState.Open && dbCommand != null)
+                {
+                    dbCommand.Connection.Close();
+                    dbCommand.Dispose();
+                }
+            }
+        }
+
+        public DataSet RunProcedureToDataSet(string storedProcedureName, List<DbParameter> dbParameters)
+        {
+            DbCommand dbCommand = null;
+            try
+            {
+                using (dbCommand = CreateDbCommand(storedProcedureName, dbParameters, CommandType.StoredProcedure))
+                {
+                    using (DbDataAdapter dbDataAdapter = providerFactory.CreateDataAdapter())
+                    {
+                        dbDataAdapter.SelectCommand = dbCommand;
+                        DataSet dataSet = new DataSet();
+                        dbDataAdapter.Fill(dataSet);
+                        dbCommand.Parameters.Clear();
+                        return dataSet;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                if(dbCommand!=null && dbCommand.Connection.State == ConnectionState.Open)
+                {
+                    dbCommand.Connection.Close();
+                    dbCommand.Dispose();
+                }
+            }
+        }
+
+        public bool RunProcedure(string storedProcedureName, List<DbParameter> dbParameters)
+        {
+            DbCommand dbCommand = null;
+            try
+            {
+                using (dbCommand = CreateDbCommand(storedProcedureName, dbParameters, CommandType.StoredProcedure))
+                {
+                    int num = 0;
+                    num = dbCommand.ExecuteNonQuery();
+                    dbCommand.Parameters.Clear();
+                    return num > 0 ? true : false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                dbCommand.Connection.Close();
+                dbCommand.Dispose();
+            }
+        }
+
+        public bool ColumnExists(string tableName, string columnName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetMaxID(string fieldName, string tableName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Exists(string strSql, List<DbParameter> parameters = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TabExists(string tableName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

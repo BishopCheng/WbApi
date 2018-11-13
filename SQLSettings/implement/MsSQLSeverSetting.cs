@@ -135,10 +135,6 @@ namespace SQLSettings.implement
 
         string ISetting.ConditionItem_In_objects => throw new NotImplementedException();
 
-        string ISetting.CondtionItem_NotIn_object => throw new NotImplementedException();
-
-        string ISetting.CondtionItem_NotIn_objects => throw new NotImplementedException();
-
         string ISetting.ConditionItem_Contains => throw new NotImplementedException();
 
         string ISetting.ConditonItem_NotContains => throw new NotImplementedException();
@@ -174,6 +170,14 @@ namespace SQLSettings.implement
         string ISetting.ConditionItem_BetweenObject => throw new NotImplementedException();
 
         string ISetting.Last_sql => throw new NotImplementedException();
+
+        string ISetting.ConditionItem_NotEquals_object => throw new NotImplementedException();
+
+        string ISetting.ConditonItem_NotEquals_object_null => throw new NotImplementedException();
+
+        string ISetting.ConditionItem_NotIn_object => throw new NotImplementedException();
+
+        string ISetting.ConditionItem_NotIn_objects => throw new NotImplementedException();
 
         List<string> ISetting.Search_sql(string tableName, string selectFiled, string getJoin, string sqlWhereClip, string orderby, string groupByStr, int pageIndex, int pageSize, bool isAll, string index, int version)
         {

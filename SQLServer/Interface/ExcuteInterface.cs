@@ -116,5 +116,62 @@ namespace SQLServer
         /// <param name="dbParameter">传入的数据参数</param>
         /// <returns></returns>
         DbParameter DbParameterCopy(DbParameter dbParameter);
+
+        /// <summary>
+        /// 执行存储过程
+        /// </summary>
+        /// <param name="storedProcedureName">存储过程名称</param>
+        /// <param name="dbParameters">参数列表</param>
+        /// <param name="tableName">表名</param>
+        /// <returns></returns>
+        DataSet RunProcedure(string storedProcedureName, List<DbParameter> dbParameters, string tableName);
+
+        /// <summary>
+        /// 执行存储过程填充到DataSet
+        /// </summary>
+        /// <param name="storedProcedureName">存储过程名称</param>
+        /// <param name="dbParameters">参数列表</param>
+        /// <returns></returns>
+        DataSet RunProcedureToDataSet(string storedProcedureName, List<DbParameter> dbParameters);
+
+        /// <summary>
+        /// 执行存储过程(是否执行成功)
+        /// </summary>
+        /// <param name="storedProcedureName">存储过程名称</param>
+        /// <param name="dbParameters">参数列表</param>
+        /// <returns></returns>
+        bool RunProcedure(string storedProcedureName, List<DbParameter> dbParameters);
+
+        /// <summary>
+        /// 实体列是否存在
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <param name="columnName">列名</param>
+        /// <returns></returns>
+        bool ColumnExists(string tableName, string columnName);
+
+        /// <summary>
+        /// 获取最大ID
+        /// </summary>
+        /// <param name="fieldName">区域名称</param>
+        /// <param name="tableName">表名</param>
+        /// <returns></returns>
+        int GetMaxID(string fieldName, string tableName);
+
+        /// <summary>
+        /// 判断是否存在
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        bool Exists(string strSql, List<DbParameter> parameters = null);
+
+        /// <summary>
+        /// 判断表是否存在
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <returns></returns>
+        bool TabExists(string tableName);
+
     }
 }

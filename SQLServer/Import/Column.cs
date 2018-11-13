@@ -247,7 +247,7 @@ namespace SQLServer
             return conditionItem;
         }
 
-        public ConditionItem Larger(string value)
+        public ConditionItem Larger(object value)
         {
             ConditionItem conditionItem = new ConditionItem();
             conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_Larger, GetName, excuteImport.sqlSetting.Flag, Name);
@@ -255,7 +255,7 @@ namespace SQLServer
             return conditionItem;
         }
 
-        public ConditionItem Smaller(string value)
+        public ConditionItem Smaller(object value)
         {
             ConditionItem conditionItem = new ConditionItem();
             conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_Smaller, GetName, excuteImport.sqlSetting.Flag, Name);
@@ -263,9 +263,77 @@ namespace SQLServer
             return conditionItem;
         }
 
-        public ConditionItem NotLarger(string value)
+        public ConditionItem NotLarger(object value)
         {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_NotLarger, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            return conditionItem;
+        }
 
+        public ConditionItem NotSmaller(object value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_NotSmaller, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            return conditionItem;
+        }
+
+        public ConditionItem  LengthEquals(object value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_LengthEquals, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            return conditionItem;
+        }
+
+        public ConditionItem LengthLarger(object value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_LengthLarger, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            return conditionItem;
+        }
+
+        public ConditionItem LengthSmaller(object value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_LengthSmaller, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            return conditionItem;
+        }
+
+        public ConditionItem LengthNotLarger(object value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_LengthNotLarger, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            return conditionItem;
+        }
+
+        public ConditionItem LengthNotSmaller(object value)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_LengthNotSmaller, GetName, excuteImport.sqlSetting.Flag, Name);
+            conditionItem.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name, value));
+            return conditionItem;
+        }
+
+        public ConditionItem Between(Column columnA,Column ColumnB)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_BetweenColumn, GetName, columnA.GetName, ColumnB.GetName);
+            return conditionItem;
+        }
+
+        public ConditionItem Between(object valueA,object valueB)
+        {
+            ConditionItem conditionItem = new ConditionItem();
+            conditionItem.sqlStr = string.Format(excuteImport.sqlSetting.ConditionItem_BetweenObject, GetName, excuteImport.sqlSetting.Flag, Name);
+            ConditionItem conditionItem2 = conditionItem;
+            conditionItem2.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name + "0", valueA));
+            conditionItem2.lstDbParmeters.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + Name + "1", valueB));
+            return conditionItem2;
         }
     }
 }
