@@ -488,7 +488,13 @@ namespace SQLServer
 
         public bool ColumnExists(string tableName, string columnName)
         {
-            throw new NotImplementedException();
+            List<DbParameter> lstDbParameters = new List<DbParameter>();
+            DbParameter dbParameter1 = CreateDbParameter(sqlSetting.ColumnExists_tableName, tableName);
+            DbParameter dbParameter2 = CreateDbParameter(sqlSetting.ColumExists_columnName, columnName);
+            lstDbParameters.Add(dbParameter1);
+            lstDbParameters.Add(dbParameter2);
+
+            
         }
 
         public int GetMaxID(string fieldName, string tableName)
