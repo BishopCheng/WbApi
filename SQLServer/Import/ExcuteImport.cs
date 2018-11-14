@@ -424,7 +424,7 @@ namespace SQLServer
                 if(dbCommand.Connection.State==ConnectionState.Open && dbCommand != null)
                 {
                     dbCommand.Connection.Close();
-                    dbCommand.Dispose();
+                    dbCommand.Connection.Dispose();
                 }
             }
         }
@@ -456,7 +456,7 @@ namespace SQLServer
                 if(dbCommand!=null && dbCommand.Connection.State == ConnectionState.Open)
                 {
                     dbCommand.Connection.Close();
-                    dbCommand.Dispose();
+                    dbCommand.Connection.Dispose();
                 }
             }
         }
@@ -482,7 +482,7 @@ namespace SQLServer
             finally
             {
                 dbCommand.Connection.Close();
-                dbCommand.Dispose();
+                dbCommand.Connection.Dispose();
             }
         }
 
@@ -494,22 +494,71 @@ namespace SQLServer
             lstDbParameters.Add(dbParameter1);
             lstDbParameters.Add(dbParameter2);
 
+            object obj = ExecuteScalar(sqlSetting.ColumnExists_sql, lstDbParameters);
+            if (obj != null)
+            {
+                bool result;
+               result= Convert.ToInt32(obj) > 0 ? true : false;
+                return result;
+            }
+            return false;
             
         }
 
         public int GetMaxID(string fieldName, string tableName)
         {
-            throw new NotImplementedException();
+            string sql = string.Format(sqlSetting.GetMaxID_sql, fieldName, tableName);
+            object obj = ExecuteScalar(sql, null);
+            if (obj != null) { return (int)obj; }
+            return 1;
         }
 
         public bool Exists(string strSql, List<DbParameter> parameters = null)
         {
-            throw new NotImplementedException();
+            object obj = ExecuteScalar(strSql, parameters);
+            if (!object.Equals(obj, null) && !object.Equals(obj, DBNull.Value) && int.Parse(obj.ToString()) != 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool TabExists(string tableName)
         {
-            throw new NotImplementedException();
+            string sql = string.Format(sqlSetting.TabExists_sql, tableName);
+            object obj = ExecuteScalar(sql, null);
+            if(!object.Equals(obj,null) && !object.Equals(obj,DBNull.Value) && int.Parse(obj.ToString()) != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public object ExecuteScalar(string sql, List<DbParameter> parameters)  //获取第一条结果
+        {
+            DbCommand dbCommand = null;
+            try
+            {
+                using (dbCommand = CreateDbCommand(sql, parameters, CommandType.Text))
+                {
+                    object result = dbCommand.ExecuteScalar();
+                    dbCommand.Parameters.Clear();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                if(dbCommand!=null && dbCommand.Connection.State == ConnectionState.Open)
+                {
+                    dbCommand.Connection.Close();
+                    dbCommand.Connection.Dispose();
+                }
+            }
         }
     }
 }

@@ -85,6 +85,14 @@ namespace SQLServer
         PageData<T> ExecutePagerData<T>(string sqlCount, string sqlData, List<DbParameter> lstDbParmeters) where T : class;
 
         /// <summary>
+        /// 返回查询结果中的第一列
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="parameters">参数集合</param>
+        /// <returns></returns>
+        object ExecuteScalar(string sql, List<DbParameter> parameters);
+
+        /// <summary>
         /// 创建SQL命令的方法
         /// </summary>
         /// <param name="sql">sql语句</param>
