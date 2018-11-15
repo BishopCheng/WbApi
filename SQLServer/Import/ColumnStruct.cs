@@ -20,5 +20,7 @@ namespace SQLServer
             Column = column;
             Name = name;
         }
+
+        
     }
 }
