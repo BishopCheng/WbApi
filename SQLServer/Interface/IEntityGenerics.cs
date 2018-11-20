@@ -4,6 +4,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Data.Common;
 using System.Data;
+using SQLServer.Import;
 
 namespace SQLServer
 {
@@ -87,5 +88,69 @@ namespace SQLServer
         int Insert(InsertClip InsertClip);
 
         int Update(UpdateClip UpdateClip, WhereClip WhereClip);
+
+        int Delete(WhereClip whereClip);
+
+        /// <summary>
+        /// 表是否存在
+        /// </summary>
+        /// <returns></returns>
+        bool IsTabExist();
+
+        int GetColumnMaxID(Column column);
+
+        int IsExist(WhereClip whereClip);
+
+        int IsExist(object primaryKey);
+       
+        /// <summary>
+        /// 条件统计
+        /// </summary>
+        /// <param name="whereClip"></param>
+        /// <returns></returns>
+        int Count(WhereClip whereClip);
+        /// <summary>
+        /// 条件统计列
+        /// </summary>
+        /// <param name="whereClip"></param>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        int Count(WhereClip whereClip, Column column);
+
+        int GetCountBySql(string sql, List<DbParameter> lstDbparameters);
+
+        int InsertModel(T t, DbTransaction dbtran);
+
+        int UpdateModel(T t, DbTransaction dbtran);
+
+        int DeleteModel(T t, DbTransaction dbtran);
+
+        int DeleteModel(Collection<object> primaryKeyList, DbTransaction dbtran);
+
+        int DeleteModel(object primaryKey, DbTransaction dbtran);
+
+        int Insert(InsertClip insertClip, DbTransaction dbtran);
+
+        int Update(UpdateClip updateClip, DbTransaction dbtran);
+
+        int Delete(WhereClip whereClip, DbTransaction dbtran);
+
+        #region 构造函数
+        EntityGenerics<DB,T>Select();
+
+        EntityGenerics<DB, T>Select(SelectName selectName);
+
+        EntityGenerics<DB, T>Join(IEntity OtherT);
+
+        EntityGenerics<DB, T>InnerJoin(IEntity OtherT, Column A, Column B);
+
+        EntityGenerics<DB, T>LeftJoin(IEntity OtherT, Column A, Column B);
+
+        EntityGenerics<DB, T> RigthJoin(IEntity OtherT, Column A, Column B);
+
+        EntityGenerics<DB, T> FullJoin(IEntity OtherT, Column A, Column B);
+
+        T GetModel(object primaryKey);
+        #endregion
     }
 }
