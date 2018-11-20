@@ -27,8 +27,65 @@ namespace SQLServer
 
         string dataBase { get; }
 
-        UpdateClip updateClip { get; set; }
-
+        UpdateClip UpdateClip { get; set; }
         
+        InsertClip InsertClip { get; set; }
+
+        OrderByClip OrderByClip { get; set; }
+
+        GroupByClip GroupByClip { get; set; }
+
+        WhereClip WhereClip { get; set; }
+
+        /// <summary>
+        /// 其他类型实体
+        /// </summary>
+        List<string> OtherT { get; set; }
+
+        /// <summary>
+        /// 跳过数量
+        /// </summary>
+        int SkipNum { get; set; }
+
+        /// <summary>
+        /// 获取数量
+        /// </summary>
+        int TakeNum { get; set; }
+       
+        int BanthInsert(List<T>tList);
+
+        int BanthUpdate(List<T> tList);
+
+        int BanthDelete(List<T> tList);
+
+        int BanthInsert(List<T> tList, ref DBtransaction dbtran);
+
+        int BanthUpdate(List<T> tList, ref DBtransaction dbtran);
+
+        int BanthDelete(List<T> tList, ref DBtransaction dbtran);
+
+        int InsertModel(T t);
+
+        int UpdateModel(T t);
+
+        int DeleteModel(T t);
+
+        /// <summary>
+        /// 通过主键集合批量删除实体
+        /// </summary>
+        /// <param name="primaryKeyList"></param>
+        /// <returns></returns>
+        int DeleteModel(Collection<object> primaryKeyList);
+
+        /// <summary>
+        /// 通过主键删除单个实体
+        /// </summary>
+        /// <param name="primaryKey"></param>
+        /// <returns></returns>
+        int DeleteModel(object primaryKey);
+
+        int Insert(InsertClip InsertClip);
+
+        int Update(UpdateClip UpdateClip, WhereClip WhereClip);
     }
 }
