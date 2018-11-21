@@ -147,6 +147,9 @@ namespace SQLServer.Import
                 }
                 return selectName_;
             }
+            set {
+                selectName_ = value;
+            }
         }
 
         public UpdateClip UpdateClip
@@ -157,6 +160,9 @@ namespace SQLServer.Import
                     updateClip_ = new UpdateClip();
                 }
                 return updateClip_;
+            }
+            set {
+                updateClip_ = value;
             }
                 
         }
@@ -170,6 +176,10 @@ namespace SQLServer.Import
                 }
                 return insertClip_;
             }
+            set
+            {
+                insertClip_ = value;
+            }
         }
 
         public OrderByClip OrderByClip
@@ -182,6 +192,10 @@ namespace SQLServer.Import
                 }
                 return orderByClip_;
             }
+            set
+            {
+                orderByClip_ = value;
+            }
         }
         public GroupByClip GroupByClip
         {
@@ -192,7 +206,11 @@ namespace SQLServer.Import
                     groupByClip_ = new GroupByClip();
                 }
                 return groupByClip_;
-            } 
+            }
+            set
+            {
+                groupByClip_ = value;
+            }
         }
         public WhereClip WhereClip
         {
@@ -202,6 +220,10 @@ namespace SQLServer.Import
                     whereClip_ = new WhereClip();
                 }
                 return whereClip_;
+            }
+            set
+            {
+                whereClip_ = value;
             }
 
         }
@@ -213,6 +235,10 @@ namespace SQLServer.Import
                     OtherT_ = new List<string>();
                 }
                 return OtherT_;
+            }
+            set
+            {
+                OtherT_ = value;
             }
         }
         public int SkipNum
@@ -288,47 +314,92 @@ namespace SQLServer.Import
 
         public int BanthUpdate(List<T> tList)
         {
-            throw new NotImplementedException();
+            return BanthUpdate(tList, null);
         }
 
         public int BanthUpdate(List<T> tList,  DBtransaction dbtran)
         {
-            throw new NotImplementedException();
+            List<List<DbParameter>> list = new List<List<DbParameter>>();
+            foreach (T t in tList)
+            {
+                list.Add(t.GetFullParmeters());
+            }
+            if(dbtran!=null)
+            {
+                return dbExcute.ExcuteNotQuery(this.t.GetUpdatePlate(), list, dbtran);
+            }
+            return dbExcute.ExcuteNotQuery(this.t.GetUpdatePlate(), list);
         }
-
+        /// <summary>
+        /// 清空选项
+        /// </summary>
         public void ClearCondition()
         {
-            throw new NotImplementedException();
+            SelectName = new SelectName();
+            UpdateClip = new UpdateClip();
+            InsertClip = new InsertClip();
+            OrderByClip = new OrderByClip();
+            GroupByClip = new GroupByClip();
+            WhereClip = new WhereClip();
+            OtherT = new List<string>();
+            SkipNum = 0;
+            TakeNum = 0;
+            SearchKey = "";
+            lstDbParmeters_ = new List<DbParameter>();
+
         }
 
         public int Count(WhereClip whereClip)
         {
-            throw new NotImplementedException();
+            List<DbParameter> lstDbParameters = new List<DbParameter>();
+            string sqlWhereClip = "";
+            whereClip.GetPartmerStrings(dbExcute, ref sqlWhereClip, ref lstDbParameters);
+            string sqlString = string.Format(dbExcute.sqlSetting.Count_sql_WhereClip, TableName, sqlWhereClip);
+            return GetCountBySql(sqlString, lstDbParameters);
         }
 
         public int Count(WhereClip whereClip, Column column)
         {
-            throw new NotImplementedException();
+            List<DbParameter> lstDbParameters = new List<DbParameter>();
+            string sqlWhereClip = "";
+            whereClip.GetPartmerStrings(dbExcute, ref sqlWhereClip, ref lstDbParameters);
+            string sqlString = string.Format(dbExcute.sqlSetting.Count_sql_WhereClip_Column, TableName, column.Name, sqlWhereClip);
+            return GetCountBySql(sqlString, lstDbParameters);
         }
 
         public int Count()
         {
-            throw new NotImplementedException();
+            List<DbParameter> lstDbParameters = new List<DbParameter>();
+            string sqlString = string.Format(dbExcute.sqlSetting.Count_sql, t.TableName);
+            return GetCountBySql(sqlString, lstDbParameters);
         }
 
         public int Delete(WhereClip whereClip)
         {
-            throw new NotImplementedException();
+            List<DbParameter> lstdbParameters = new List<DbParameter>();
+            string sqlWhereClip = "";
+            whereClip.GetPartmerStrings(dbExcute, ref sqlWhereClip, ref lstdbParameters);
+            string sqlString = string.Format(dbExcute.sqlSetting.DeleteModel_sql_WhereClip, TableName, sqlWhereClip);
+            return dbExcute.ExcuteNotQuery(sqlString, lstdbParameters);
         }
 
-        public int Delete(WhereClip whereClip, DbTransaction dbtran)
+        public int Delete(WhereClip whereClip, DBtransaction dbtran)
         {
-            throw new NotImplementedException();
+            List<DbParameter> lstdbParameters = new List<DbParameter>();
+            string sqlWhereClip = "";
+            whereClip.GetPartmerStrings(dbExcute, ref sqlWhereClip, ref lstdbParameters);
+            string sqlString = string.Format(dbExcute.sqlSetting.DeleteModel_sql_WhereClip, TableName, sqlWhereClip);
+            return dbExcute.ExcuteNotQuery(sqlString, lstdbParameters,dbtran);
         }
 
         public int DeleteModel(T t)
         {
-            throw new NotImplementedException();
+            string sqlString = string.Format(dbExcute.sqlSetting.DeleteModel_sql, TableName, PrimaryKey);
+            List<DbParameter> parameters = new List<DbParameter>
+            {
+                dbExcute.CreateDbParameter(dbExcute.sqlSetting.DeleteModel_PrimaryKey,t.PrimaryKey)
+            };
+            return dbExcute.ExcuteNotQuery(sqlString, parameters);
         }
 
         public int DeleteModel(Collection<object> primaryKeyList)
