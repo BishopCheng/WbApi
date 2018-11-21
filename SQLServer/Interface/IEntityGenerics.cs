@@ -119,21 +119,21 @@ namespace SQLServer
 
         int GetCountBySql(string sql, List<DbParameter> lstDbparameters);
 
-        int InsertModel(T t, DbTransaction dbtran);
+        int InsertModel(T t, DBtransaction dbtran);
 
-        int UpdateModel(T t, DbTransaction dbtran);
+        int UpdateModel(T t, DBtransaction dbtran);
 
-        int DeleteModel(T t, DbTransaction dbtran);
+        int DeleteModel(T t, DBtransaction dbtran);
 
-        int DeleteModel(Collection<object> primaryKeyList, DbTransaction dbtran);
+        int DeleteModel(Collection<object> primaryKeyList, DBtransaction dbtran);
 
-        int DeleteModel(object primaryKey, DbTransaction dbtran);
+        int DeleteModel(object primaryKey, DBtransaction dbtran);
 
-        int Insert(InsertClip insertClip, DbTransaction dbtran);
+        int Insert(InsertClip insertClip, DBtransaction dbtran);
 
-        int Update(UpdateClip updateClip, DbTransaction dbtran);
+        int Update(UpdateClip updateClip, DBtransaction dbtran);
 
-        int Delete(WhereClip whereClip, DbTransaction dbtran);
+        int Delete(WhereClip whereClip, DBtransaction dbtran);
 
         #region 构造函数
         EntityGenerics<DB,T>Select();

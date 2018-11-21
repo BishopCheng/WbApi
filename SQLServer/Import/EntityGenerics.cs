@@ -404,25 +404,40 @@ namespace SQLServer.Import
 
         public int DeleteModel(Collection<object> primaryKeyList)
         {
-            throw new NotImplementedException();
+            WhereClip whereClip = new WhereClip();
+            whereClip.AddClip(t.GetColumn(t.PrimaryKey).In(primaryKeyList));
+            List<DbParameter> lstDbParameter = new List<DbParameter>();
+            string sqlWhereClip = "";
+            whereClip.GetPartmerStrings(dbExcute, ref sqlWhereClip, ref lstDbParameter);
+            string sql = string.Format(dbExcute.sqlSetting.DeleteModel_sql_WhereClip, TableName, sqlWhereClip);
+            return dbExcute.ExcuteNotQuery(sql, lstDbParameter);
+
         }
 
         public int DeleteModel(object primaryKey)
         {
-            throw new NotImplementedException();
+            string sqlString = string.Format(dbExcute.sqlSetting.DeleteModel_sql, TableName, PrimaryKey);
+            List<DbParameter> parameters = new List<DbParameter>
+            {
+                dbExcute.CreateDbParameter(dbExcute.sqlSetting.DeleteModel_PrimaryKey,primaryKey)
+            };
+            return dbExcute.ExcuteNotQuery(sqlString, parameters);
         }
 
-        public int DeleteModel(T t, DbTransaction dbtran)
+        public int DeleteModel(T t, DBtransaction dbtran)
+        {
+            string sqlString = string.Format(dbExcute.sqlSetting.DeleteModel_sql, TableName, PrimaryKey);
+            List<DbParameter> list = new List<DbParameter>();
+            list.Add(dbExcute.CreateDbParameter(dbExcute.sqlSetting.Flag + PrimaryKey, t.PrimaryKeyValue));
+            return dbExcute.ExcuteNotQuery(sqlString, list, dbtran);
+        }
+
+        public int DeleteModel(Collection<object> primaryKeyList, DBtransaction dbtran)
         {
             throw new NotImplementedException();
         }
 
-        public int DeleteModel(Collection<object> primaryKeyList, DbTransaction dbtran)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int DeleteModel(object primaryKey, DbTransaction dbtran)
+        public int DeleteModel(object primaryKey, DBtransaction dbtran)
         {
             throw new NotImplementedException();
         }
@@ -462,7 +477,7 @@ namespace SQLServer.Import
             throw new NotImplementedException();
         }
 
-        public int Insert(InsertClip insertClip, DbTransaction dbtran)
+        public int Insert(InsertClip insertClip, DBtransaction dbtran)
         {
             throw new NotImplementedException();
         }
@@ -472,7 +487,7 @@ namespace SQLServer.Import
             throw new NotImplementedException();
         }
 
-        public int InsertModel(T t, DbTransaction dbtran)
+        public int InsertModel(T t, DBtransaction dbtran)
         {
             throw new NotImplementedException();
         }
@@ -567,7 +582,7 @@ namespace SQLServer.Import
             throw new NotImplementedException();
         }
 
-        public int Update(UpdateClip updateClip, DbTransaction dbtran)
+        public int Update(UpdateClip updateClip, DBtransaction dbtran)
         {
             throw new NotImplementedException();
         }
@@ -577,7 +592,7 @@ namespace SQLServer.Import
             throw new NotImplementedException();
         }
 
-        public int UpdateModel(T t, DbTransaction dbtran)
+        public int UpdateModel(T t, DBtransaction dbtran)
         {
             throw new NotImplementedException();
         }

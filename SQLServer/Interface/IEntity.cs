@@ -22,6 +22,8 @@ namespace SQLServer
 
         public virtual string OrderField => "";
 
+        public virtual object PrimaryKeyValue => "";
+
         public virtual IEntity SetModel(DataRow dataRow)
         {
             return null;
