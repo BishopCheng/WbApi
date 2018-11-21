@@ -20,13 +20,13 @@ namespace SQLServer
 
         DB dB { get; }
 
-        string connectionString { get; }
+        string ConnectionString { get; }
 
-        string primaryKey { get; }
+        string PrimaryKey { get; }
 
-        string tableName { get; }
+        string TableName { get; }
 
-        string dataBase { get; }
+        string DataBase { get; }
 
         UpdateClip UpdateClip { get; set; }
         
@@ -59,11 +59,11 @@ namespace SQLServer
 
         int BanthDelete(List<T> tList);
 
-        int BanthInsert(List<T> tList, ref DBtransaction dbtran);
+        int BanthInsert(List<T> tList,  DBtransaction dbtran);
 
-        int BanthUpdate(List<T> tList, ref DBtransaction dbtran);
+        int BanthUpdate(List<T> tList,  DBtransaction dbtran);
 
-        int BanthDelete(List<T> tList, ref DBtransaction dbtran);
+        int BanthDelete(List<T> tList,  DBtransaction dbtran);
 
         int InsertModel(T t);
 
@@ -149,8 +149,55 @@ namespace SQLServer
         EntityGenerics<DB, T> RigthJoin(IEntity OtherT, Column A, Column B);
 
         EntityGenerics<DB, T> FullJoin(IEntity OtherT, Column A, Column B);
-
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="primaryKey"></param>
+        /// <returns></returns>
         T GetModel(object primaryKey);
+
+        EntityGenerics<DB, T>SetOrderByClip(ItemStruct orderByClip);
+
+        EntityGenerics<DB, T>SetOrderByClip(OrderByClip orderByClip);
+
+        EntityGenerics<DB, T>SetWhereClip(ConditionItem whereClip);
+
+        EntityGenerics<DB, T>SetWhereClip(WhereClip whereClip);
+
+        EntityGenerics<DB, T>SetGroupByClip(Column GroupByClip);
+
+        EntityGenerics<DB, T>SetGroupByClip(GroupByClip groupByClip);
+
+        EntityGenerics<DB, T> GetByRange(int SkipNum, int takeNum);
+        /// <summary>
+        /// 循环获取集合
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<T> ToList();
+        /// <summary>
+        /// 获取分页集合
+        /// </summary>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
+        /// <returns></returns>
+        PageData<T> ToList(int PageSize, int PageIndex);
+        /// <summary>
+        /// 获取第一个元素
+        /// </summary>
+        /// <returns></returns>
+        T ToFirst();
+        /// <summary>
+        /// 计数
+        /// </summary>
+        /// <returns></returns>
+        int Count();
+        /// <summary>
+        /// 返回字符串类型
+        /// </summary>
+        /// <returns></returns>
+        new string ToString();
+
+        void ClearCondition();
         #endregion
     }
 }
