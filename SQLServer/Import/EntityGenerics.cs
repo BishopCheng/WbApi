@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Data.Common;
+using System.Linq;
 
 namespace SQLServer.Import
 {
@@ -434,145 +435,268 @@ namespace SQLServer.Import
 
         public int DeleteModel(Collection<object> primaryKeyList, DBtransaction dbtran)
         {
-            throw new NotImplementedException();
+            string text = "";
+            List<DbParameter> list = new List<DbParameter>();
+            int count = primaryKeyList.Count;
+            for (int i = 0; i < count; i++)
+            {
+                text = (text.Length != 0) ? (text + "," + dbExcute.sqlSetting.Flag + PrimaryKey + i.ToString()) : (text + dbExcute.sqlSetting.Flag + PrimaryKey + i.ToString());
+                list.Add(dbExcute.CreateDbParameter(dbExcute.sqlSetting.Flag + PrimaryKey + i.ToString(), primaryKeyList[i]));
+            }
+            string sqlString = string.Format(dbExcute.sqlSetting.DeleteModel_sql_In, TableName, PrimaryKey, text);
+            return dbExcute.ExcuteNotQuery(sqlString, list, dbtran);
         }
 
         public int DeleteModel(object primaryKey, DBtransaction dbtran)
         {
-            throw new NotImplementedException();
+            string sqlString = string.Format(dbExcute.sqlSetting.DeleteModel_PrimaryKey, TableName, PrimaryKey);
+            List<DbParameter> list = new List<DbParameter>
+            {
+                dbExcute.CreateDbParameter(dbExcute.sqlSetting.Flag+t.PrimaryKey,primaryKey)
+            };
+            return dbExcute.ExcuteNotQuery(sqlString, list, dbtran);
+            
         }
 
-        public EntityGenerics<DB, T> FullJoin(IEntity OtherT, Column A, Column B)
+        public EntityGenerics<DB, T> FullJoin(IEntity otherT, Column A, Column B)
         {
-            throw new NotImplementedException();
+            OtherT.Add(string.Format(dbExcute.sqlSetting.FullJoin_sql, otherT.TableName, A.GetName, B.GetName));
+            return this;
         }
 
-        public EntityGenerics<DB, T> GetByRange(int SkipNum, int takeNum)
+        public EntityGenerics<DB, T> GetByRange(int skipNum, int takeNum)
         {
-            throw new NotImplementedException();
+            SkipNum = skipNum;
+            TakeNum = takeNum;
+            return this;
         }
 
         public int GetColumnMaxID(Column column)
         {
-            throw new NotImplementedException();
+            return dbExcute.GetMaxID(column.Name, TableName);
         }
 
         public int GetCountBySql(string sql, List<DbParameter> lstDbparameters)
         {
-            throw new NotImplementedException();
+            object obj = dbExcute.ExecuteScalar(sql, lstDbparameters);
+            int result = 0;
+            if (obj != null)
+            {
+                int.TryParse(obj.ToString(), out result);
+            }
+            return result;
         }
 
         public T GetModel(object primaryKey)
         {
-            throw new NotImplementedException();
+            string sqlString = string.Format(dbExcute.sqlSetting.Select_sql, TableName, PrimaryKey, PrimaryKey);
+            List<DbParameter> lstDbParameters = new List<DbParameter>();
+            lstDbParameters.Add(dbExcute.CreateDbParameter(dbExcute.sqlSetting.Flag + PrimaryKey, PrimaryKey));
+            IEnumerable<T> source = dbExcute.Excute<T>(sqlString, lstDbParameters);
+            return Enumerable.FirstOrDefault<T>(source);
         }
 
-        public EntityGenerics<DB, T> InnerJoin(IEntity OtherT, Column A, Column B)
+        public EntityGenerics<DB, T> InnerJoin(IEntity otherT, Column A, Column B)
         {
-            throw new NotImplementedException();
+            OtherT.Add(string.Format(dbExcute.sqlSetting.InnerJoin_sql, A.GetName, B.GetName));
+            return this;
         }
 
         public int Insert(InsertClip InsertClip)
         {
-            throw new NotImplementedException();
+            List<DbParameter> lstDbParameter = new List<DbParameter>();
+            string sqlInsert = "";
+            InsertClip.GetParameterString(dbExcute, ref sqlInsert, ref lstDbParameter);
+            return dbExcute.ExcuteNotQuery(string.Format(dbExcute.sqlSetting.Insert_sql,TableName,sqlInsert),lstDbParameter);
         }
 
         public int Insert(InsertClip insertClip, DBtransaction dbtran)
         {
-            throw new NotImplementedException();
+            List<DbParameter> lstDbParameter = new List<DbParameter>();
+            string sqlInsert = "";
+            insertClip.GetParameterString(dbExcute, ref sqlInsert, ref lstDbParameter);
+            return dbExcute.ExcuteNotQuery(string.Format(dbExcute.sqlSetting.Insert_sql, TableName, sqlInsert), lstDbParameter, dbtran);
         }
 
         public int InsertModel(T t)
         {
-            throw new NotImplementedException();
+            return dbExcute.ExcuteNotQuery(t.GetInsertPlate(), t.GetFullParmeters());
         }
 
         public int InsertModel(T t, DBtransaction dbtran)
         {
-            throw new NotImplementedException();
+            return dbExcute.ExcuteNotQuery(t.GetInsertPlate(), t.GetFullParmeters(), dbtran);
         }
 
-        public int IsExist(WhereClip whereClip)
+        public bool IsExist(WhereClip whereClip)
         {
-            throw new NotImplementedException();
+            List<DbParameter> lstDbParameters = new List<DbParameter>();
+            string sqlString = "";
+            whereClip.GetPartmerStrings(dbExcute, ref sqlString, ref lstDbParameters);
+            string sqls = string.Format(dbExcute.sqlSetting.IsExist_sql_WhereClip, TableName, sqlString);
+            return dbExcute.Exists(sqls, lstDbParameters);
         }
 
-        public int IsExist(object primaryKey)
+        public bool IsExist(object primaryKey)
         {
-            throw new NotImplementedException();
+            List<DbParameter> list = new List<DbParameter>();
+            list.Add(dbExcute.CreateDbParameter(dbExcute.sqlSetting.Flag + PrimaryKey, primaryKey));
+            string sqlString = string.Format(dbExcute.sqlSetting.IsExist_sql, TableName, PrimaryKey, PrimaryKey);
+            return dbExcute.Exists(sqlString, list);
         }
 
         public bool IsTabExist()
         {
-            throw new NotImplementedException();
+            return dbExcute.TabExists(t.TableName);
         }
 
-        public EntityGenerics<DB, T> Join(IEntity OtherT)
+        public EntityGenerics<DB, T> Join(IEntity otherT)
         {
-            throw new NotImplementedException();
+            OtherT.Add(string.Format(dbExcute.sqlSetting.Join_sql, otherT.TableName));
+            return this;
         }
 
-        public EntityGenerics<DB, T> LeftJoin(IEntity OtherT, Column A, Column B)
+        public EntityGenerics<DB, T> LeftJoin(IEntity otherT, Column A, Column B)
         {
-            throw new NotImplementedException();
+            OtherT.Add(string.Format(dbExcute.sqlSetting.LeftJoin_sql, A.GetName, B.GetName));
+            return this;
         }
 
-        public EntityGenerics<DB, T> RigthJoin(IEntity OtherT, Column A, Column B)
+        public EntityGenerics<DB, T> RigthJoin(IEntity otherT, Column A, Column B)
         {
-            throw new NotImplementedException();
+            OtherT.Add(string.Format(dbExcute.sqlSetting.RightJoin_sql, A.GetName, B.GetName));
+            return this;
         }
 
         public EntityGenerics<DB, T> Select()
         {
-            throw new NotImplementedException();
+            ClearCondition();
+            return this;
         }
 
         public EntityGenerics<DB, T> Select(SelectName selectName)
         {
-            throw new NotImplementedException();
+            ClearCondition();
+            //使用ColumnStruct类型填充
+            foreach (ColumnStruct column in selectName)
+            {
+                SelectName.Add(column);
+
+            }
+            return this;
         }
 
-        public EntityGenerics<DB, T> SetGroupByClip(Column GroupByClip)
+        public EntityGenerics<DB, T> SetGroupByClip(Column groupByClip)
         {
-            throw new NotImplementedException();
+            GroupByClip.Add(groupByClip);
+            return this;
         }
 
         public EntityGenerics<DB, T> SetGroupByClip(GroupByClip groupByClip)
         {
-            throw new NotImplementedException();
+            foreach (Column item in groupByClip)
+            {
+                GroupByClip.Add(item);
+            }
+            return this;
         }
 
         public EntityGenerics<DB, T> SetOrderByClip(ItemStruct orderByClip)
         {
-            throw new NotImplementedException();
+            OrderByClip.Add(orderByClip);
+            return this;
         }
+
 
         public EntityGenerics<DB, T> SetOrderByClip(OrderByClip orderByClip)
         {
-            throw new NotImplementedException();
+            foreach (ItemStruct item in orderByClip)
+            {
+                OrderByClip.Add(item);
+            }
+            return this;
         }
 
         public EntityGenerics<DB, T> SetWhereClip(ConditionItem whereClip)
         {
-            throw new NotImplementedException();
+            WhereClip.AddClip(whereClip);
+            return this;
         }
 
         public EntityGenerics<DB, T> SetWhereClip(WhereClip whereClip)
         {
-            throw new NotImplementedException();
+            if (whereClip.flag)
+            {
+                for (int i = 0; i < whereClip.Count; i++)
+                {
+                    WhereClip.AddClip((ConditionItem)whereClip[i]);
+                }
+            }
+            else
+            {
+                for (int j = 0; j < whereClip.Count; j++)
+                {
+                    //符号标签处理
+                    if(whereClip[j] is Symbol)
+                    {
+                        WhereClip.AddComClip((Symbol)whereClip[j]);
+                    }
+                    else
+                    {
+                        WhereClip.AddClip((ConditionItem)whereClip[j]);
+                    }
+                    
+                }
+                
+            }
+            return this;
         }
 
         public T ToFirst()
         {
-            throw new NotImplementedException();
+            StringBuilder stringBuilder = new StringBuilder();
+            GetCondition(ref stringBuilder);
+            string sqlStr = string.Format(dbExcute.sqlSetting.First_sql, t.SqlTableName,stringBuilder.ToString());
+            IEnumerable<T> source = dbExcute.Excute<T>(sqlStr, lstParmeters);
+            return Enumerable.FirstOrDefault<T>(source);
         }
 
         public IEnumerable<T> ToList()
         {
-            throw new NotImplementedException();
+            return dbExcute.Excute<T>(ToString(), lstParmeters);
         }
 
         public PageData<T> ToList(int PageSize, int PageIndex)
+        {
+            string text = "";
+            for (int i = 0; i < OrderByClip.Count; i++)
+            {
+                if (text.Length > 0)
+                {
+                    text += ",";
+                }
+                text += OrderByClip[i].Column.Name;
+            }
+            string groupByStr = GroupByClip.ToString();
+            PageData<T> pageData = new PageData<T>();
+            if (WhereClip.Count <= 0)
+            {
+                List<string> lst = dbExcute.sqlSetting.Search_sql(TableName, GetSelectField(), GetJoin(), "", text, groupByStr, PageIndex, PageSize, true, PrimaryKey, 2018);
+                return dbExcute.ExecutePagerData<T>(lst[0], lst[1], (List<DbParameter>)null);
+            }
+            List<DbParameter> lstDbParameters = new List<DbParameter>();
+            string sqlWhereClip = "";
+            WhereClip.GetPartmerStrings(dbExcute, ref sqlWhereClip, ref lstDbParameters);
+            List<string> list2 = dbExcute.sqlSetting.Search_sql(TableName, GetSelectField(), GetJoin(), sqlWhereClip, text, groupByStr, PageIndex, PageSize, true, PrimaryKey, 2018);
+            return dbExcute.ExecutePagerData<T>(list2[0], list2[1], lstDbParameters);
+        }
+
+        public IEnumerable<TT>ToList<TT>() where TT : class
+        {
+            return this.dbExcute.Excute<TT>(ToString(), this.lstParmeters);
+        }
+
+        public PageData<TT>ToList<TT>(int pageSize,int pageIndex) where TT : class
         {
             throw new NotImplementedException();
         }
@@ -596,5 +720,84 @@ namespace SQLServer.Import
         {
             throw new NotImplementedException();
         }
+
+        #region 私有方法
+        private void GetCondition(ref StringBuilder stringbuliderSql)
+        {
+            stringbuliderSql.Append(GetJoin());
+            if (WhereClip.Count > 0)
+            {
+                string sqlwhereClip = "";
+                List<DbParameter> lstDbParameters = new List<DbParameter>();
+                WhereClip.GetPartmerStrings(dbExcute, ref sqlwhereClip, ref lstDbParameters);
+                lstDbParameters.AddRange(lstDbParameters);
+                stringbuliderSql.Append(dbExcute.sqlSetting.SQL_where+ sqlwhereClip);
+
+            }
+            if (GroupByClip.Count > 0)
+            {
+                stringbuliderSql.Append(dbExcute.sqlSetting.SQL_groupby + GroupByClip.ToString());
+            }
+            if (OrderByClip.Count > 0)
+            {
+                stringbuliderSql.Append(dbExcute.sqlSetting.SQL_orderby + OrderByClip.ToString());
+            }
+        }
+
+        private void GetCondition(bool flag)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(GetJoin());
+            if (WhereClip.Count > 0)
+            {
+                string sqlWhereClip = "";
+                List<DbParameter> dbParameters = new List<DbParameter>();
+                WhereClip.GetPartmerStrings(dbExcute, ref sqlWhereClip, ref dbParameters);
+                dbParameters.AddRange(dbParameters);
+                if (WhereClip.Count > 0)
+                {
+                    if (flag)
+                    {
+                        stringBuilder.Append(dbExcute.sqlSetting.SQL_where + WhereClip.ToString());
+                    }
+                    else
+                    {
+                        stringBuilder.Append(dbExcute.sqlSetting.SQL_and + WhereClip.ToString());
+                    }
+                }
+                if (OrderByClip.Count > 0)
+                {
+                    stringBuilder.Append(dbExcute.sqlSetting.SQL_orderby + OrderByClip.ToString());
+                }
+                if (GroupByClip.Count > 0)
+                {
+                    stringBuilder.Append(dbExcute.sqlSetting.SQL_groupby + GroupByClip.ToString());
+                }
+                
+            }
+        }
+        /// <summary>
+        /// 获取join
+        /// </summary>
+        /// <returns></returns>
+        private string GetJoin()
+        {
+            string text = "";
+            foreach (var item in OtherT)
+            {
+                text += item;
+            }
+            return text;
+        }
+        private string GetSelectField()
+        {
+            if (SelectName.Count <= 0)
+            {
+                return dbExcute.sqlSetting.Select_all;
+            }
+            return SelectName.ToString();
+        }
+
+        #endregion
     }
 }

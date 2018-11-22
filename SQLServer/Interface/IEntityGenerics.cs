@@ -99,9 +99,9 @@ namespace SQLServer
 
         int GetColumnMaxID(Column column);
 
-        int IsExist(WhereClip whereClip);
+        bool IsExist(WhereClip whereClip);
 
-        int IsExist(object primaryKey);
+        bool IsExist(object primaryKey);
        
         /// <summary>
         /// 条件统计

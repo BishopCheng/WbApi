@@ -30,6 +30,13 @@ namespace SQLServer
             return this;
         }
 
+        public WhereClip AddComClip(Symbol value)
+        {
+            flag = false;
+            Add(value);
+            return this;
+        }
+
         public WhereClip ClearClip()
         {
             Clear();
