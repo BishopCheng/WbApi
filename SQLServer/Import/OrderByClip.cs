@@ -13,6 +13,8 @@ namespace SQLServer
     /// </summary>
     public class OrderByClip:Collection<ItemStruct>
     {
+        //因为OrderBy只需要用到一个条件，所以只需要用一个string字符串来保存
+
         public OrderByClip AddClip(Column column,object name)
         {
             Add(new ItemStruct(column, name));
@@ -45,5 +47,7 @@ namespace SQLServer
             }
             orderBySql = stringBuilder.ToString(); 
         }
+
+
     }
 }

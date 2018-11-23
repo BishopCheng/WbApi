@@ -71,7 +71,7 @@ namespace SQLServer.Import
 
 
 
-        public string connectionString {
+        public string ConnectionString {
             get { if (connectionString_ == null)
                 {
                     connectionString_ = dB.ConnectionString;
@@ -127,12 +127,12 @@ namespace SQLServer.Import
             }
         }
 
-        public string primaryKey {
+        public string PrimaryKey {
             get
             {
                 if(primaryKey_ == null || primaryKey_.Length <= 0)
                 {
-                    primaryKey_ = primaryKey;
+                    primaryKey_ = t.PrimaryKey;
                 }
                 return primaryKey_;
             }
@@ -273,9 +273,8 @@ namespace SQLServer.Import
             }
         }
 
-        public string ConnectionString => throw new NotImplementedException();
 
-        public string PrimaryKey => throw new NotImplementedException();
+        #region 对Conditon操作
 
         UpdateClip IEntityGenerics<DB, T>.UpdateClip { get => ((IEntityGenerics<DB, T>)Instance).UpdateClip; set => ((IEntityGenerics<DB, T>)Instance).UpdateClip = value; }
         InsertClip IEntityGenerics<DB, T>.InsertClip { get => ((IEntityGenerics<DB, T>)Instance).InsertClip; set => ((IEntityGenerics<DB, T>)Instance).InsertClip = value; }
@@ -283,6 +282,7 @@ namespace SQLServer.Import
         GroupByClip IEntityGenerics<DB, T>.GroupByClip { get => ((IEntityGenerics<DB, T>)Instance).GroupByClip; set => ((IEntityGenerics<DB, T>)Instance).GroupByClip = value; }
         WhereClip IEntityGenerics<DB, T>.WhereClip { get => ((IEntityGenerics<DB, T>)Instance).WhereClip; set => ((IEntityGenerics<DB, T>)Instance).WhereClip = value; }
         List<string> IEntityGenerics<DB, T>.OtherT { get => ((IEntityGenerics<DB, T>)Instance).OtherT; set => ((IEntityGenerics<DB, T>)Instance).OtherT = value; }
+        #endregion
 
         public int BanthDelete(List<T> tList)
         {
@@ -693,32 +693,79 @@ namespace SQLServer.Import
 
         public IEnumerable<TT>ToList<TT>() where TT : class
         {
-            return this.dbExcute.Excute<TT>(ToString(), this.lstParmeters);
+
+            return dbExcute.Excute<TT>(ToString(), lstParmeters);
+            
         }
 
         public PageData<TT>ToList<TT>(int pageSize,int pageIndex) where TT : class
         {
-            throw new NotImplementedException();
+            //先取OrderBy条件，再取GroupBy条件，最后取WhereClip条件
+            string text = "";
+            for (int i = 0; i < OrderByClip.Count; i++)
+            {
+                if (text.Length> 0)
+                {
+                    text += ",";
+                }
+                text += OrderByClip[i].Column.Name;
+            }
+            string groupByStr = GroupByClip.ToString();
+            PageData<T> pageData = new PageData<T>();
+            if (WhereClip.Count<=0)
+            {
+                //没有查询条件
+                //调用SqlSetting的Search方法获取sqllist
+                List<string> list = dbExcute.sqlSetting.Search_sql(TableName, GetSelectField(), GetJoin(), "", text, groupByStr, pageIndex, pageSize, true, PrimaryKey, 2018);
+                return dbExcute.ExecutePagerData<TT>(list[0], list[1], (List<DbParameter>)null);
+            }
+            else
+            {
+                //有查询条件，写入查询条件
+                List<DbParameter> lstDbParameters = new List<DbParameter>();
+                string sqlWhereClip = "";
+                this.WhereClip.GetPartmerStrings(dbExcute, ref sqlWhereClip, ref lstDbParameters);
+                List<string> list2 = this.dbExcute.sqlSetting.Search_sql(this.TableName, this.GetSelectField(), this.GetJoin(), sqlWhereClip, text, groupByStr, pageIndex, pageSize, true, PrimaryKey, 2018);
+                return dbExcute.ExecutePagerData<TT>(list2[0], list2[1], lstDbParameters);
+            }
+
         }
 
         public int Update(UpdateClip UpdateClip, WhereClip WhereClip)
         {
-            throw new NotImplementedException();
+            //先取得UpdateClip条件,再取得WhereClip条件
+            List<DbParameter> lstParameters = new List<DbParameter>();
+            string sqlwhereClip = "";
+            string sqlupdateClip = "";
+
+            //获取参数字符串
+            UpdateClip.GetParamString(dbExcute, ref sqlupdateClip, ref lstParameters);
+            WhereClip.GetPartmerStrings(dbExcute, ref sqlwhereClip, ref lstParameters);
+            //使用update占位语句执行
+            return dbExcute.ExcuteNotQuery(string.Format(dbExcute.sqlSetting.Update_sql, TableName, sqlupdateClip, sqlwhereClip), lstParameters);
         }
 
-        public int Update(UpdateClip updateClip, DBtransaction dbtran)
+        public int Update(UpdateClip UpdateClip,WhereClip WhereClip, DBtransaction dbtran)
         {
-            throw new NotImplementedException();
+            List<DbParameter> lstDbParameters = new List<DbParameter>();
+            string sqlwhereClip = "";
+            string sqlupdateClip = "";
+
+            //获取执行参数
+            UpdateClip.GetParamString(dbExcute, ref sqlupdateClip, ref lstDbParameters);
+            WhereClip.GetPartmerStrings(dbExcute, ref sqlwhereClip, ref lstDbParameters);
+            //使用update带事务的占位语句执行
+            return dbExcute.ExcuteNotQuery(string.Format(dbExcute.sqlSetting.Update_sql, TableName, sqlupdateClip, sqlwhereClip), lstDbParameters,dbtran);
         }
 
         public int UpdateModel(T t)
         {
-            throw new NotImplementedException();
+            return dbExcute.ExcuteNotQuery(t.GetUpdatePlate(), t.GetFullParmeters());
         }
 
         public int UpdateModel(T t, DBtransaction dbtran)
         {
-            throw new NotImplementedException();
+            return dbExcute.ExcuteNotQuery(t.GetUpdatePlate(), t.GetFullParmeters());
         }
 
         #region 私有方法

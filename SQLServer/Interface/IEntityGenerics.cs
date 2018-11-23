@@ -131,7 +131,7 @@ namespace SQLServer
 
         int Insert(InsertClip insertClip, DBtransaction dbtran);
 
-        int Update(UpdateClip updateClip, DBtransaction dbtran);
+        int Update(UpdateClip updateClip,WhereClip whereClip, DBtransaction dbtran);
 
         int Delete(WhereClip whereClip, DBtransaction dbtran);
 
