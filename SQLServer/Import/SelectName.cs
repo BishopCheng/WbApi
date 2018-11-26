@@ -4,7 +4,7 @@ using System.Text;
 using System.Data.Common;
 using System.Collections.ObjectModel;
 
-namespace SQLServer.Import
+namespace SQLServer
 {
     /// <summary>
     /// 获取列名
