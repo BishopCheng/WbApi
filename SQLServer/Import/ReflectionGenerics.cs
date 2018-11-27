@@ -438,7 +438,7 @@ namespace SQLServer
 
         public int BantchOnce(List<IEntity> tlist)
         {
-           
+            return BantchOnce(tlist);
         }
 
         public int BantchOnce(List<IEntity> tlist,DBtransaction dbtran)
@@ -471,6 +471,151 @@ namespace SQLServer
                 return excuteImport.ExcuteNotQuery(stringBuilder.ToString(), list, dbtran);
             }
             return excuteImport.ExcuteNotQuery(stringBuilder.ToString(), list);
+        }
+
+        public int InsertModel(IEntity iEntity) {
+            return excuteImport.ExcuteNotQuery(IEntity.GetInsertPlate(), IEntity.GetFullParmeters());
+        }
+
+        public int UpdateModel(IEntity iEntity) {
+            return excuteImport.ExcuteNotQuery(IEntity.GetUpdatePlate(), IEntity.GetFullParmeters());
+        }
+
+        public int DeleteModel(IEntity iEntity) {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            //拼接语句
+            List<DbParameter> parameters = new List<DbParameter>();
+            parameters.Add(excuteImport.CreateDbParameter("@" + PrimaryKey, PrimaryKey));
+            string sql = "DELETE " + TableName + " WHERE " + PrimaryKey + "=@" + PrimaryKey;
+            //执行SQL语句
+            return excuteImport.ExcuteNotQuery(sql, parameters);
+        }
+
+        public int DeleteModel(Collection<string> primaryKeyList)
+        {
+            WhereClip whereClip = new WhereClip();
+            whereClip.AddClip(IEntity.GetColumn(IEntity.PrimaryKey).In(primaryKeyList));
+            List<DbParameter> dbParameters = new List<DbParameter>();
+            string sqlwhereClip = "";
+            whereClip.GetPartmerStrings(excuteImport, ref sqlwhereClip, ref dbParameters);
+            string sqlString = " DELETE " + TableName + " WHERE " + sqlwhereClip;
+            return excuteImport.ExcuteNotQuery(sqlString, dbParameters);
+        }
+        #endregion
+
+        #region 操作方法（CURD），通过自定义Clip
+        public int Insert(InsertClip insertClip)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string sqlInsert = "";
+            insertClip.GetParameterString(excuteImport, ref sqlInsert, ref parameters);
+            sqlInsert = "INSERT " + TableName + insertClip;
+            return excuteImport.ExcuteNotQuery(sqlInsert, parameters);
+        }
+
+        public int Update(UpdateClip updateClip,WhereClip whereClip)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string updateSql = "";
+            string selectSql = "";
+            updateClip.GetParamString(excuteImport, ref updateSql, ref parameters);
+            whereClip.GetPartmerStrings(excuteImport, ref selectSql, ref parameters);
+            string sqlStr = "UPDATE " + TableName +" " +  updateSql + " WHERE " + selectSql;
+            return excuteImport.ExcuteNotQuery(sqlStr, parameters);
+        }
+
+        public int Delete(WhereClip whereClip)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string deletesql = "";
+            whereClip.GetPartmerStrings(excuteImport, ref deletesql, ref parameters);
+            string sqlStr = "DELETE " + TableName + " WHERE " + deletesql;
+            return excuteImport.ExcuteNotQuery(sqlStr, parameters);
+        }
+
+        public bool IsExist()
+        {
+            return excuteImport.TabExists(TableName);
+        }
+
+        public bool IsExist(object primaryValue)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            parameters.Add(excuteImport.CreateDbParameter("@" + PrimaryKey, primaryValue));
+            string sqlStr = "SELECT COUNT(*) FROM " + TableName + " WHERE " + PrimaryKey + "=@" + PrimaryKey;
+            return excuteImport.Exists(sqlStr, parameters);
+        }
+
+        /// <summary>
+        /// 操作当前表单
+        /// </summary>
+        /// <returns></returns>
+        public int Count()
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string sqlStr = "SELECT COUNT(*) AS coutumn FROM " + IEntity.TableName;
+            return GetCountBySql(sqlStr, parameters);
+        }
+
+      
+
+        public int Count(WhereClip whereClip, Column column)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string sqlWhereClip = "";
+            whereClip.GetPartmerStrings(excuteImport, ref sqlWhereClip,ref parameters);
+            string sqlStr = "SELECT COUNT(distinct(" + column.Name + " )) as countumn FROM " + TableName + " WHERE " + sqlWhereClip;
+            return GetCountBySql(sqlStr, parameters);
+        }
+
+        public decimal Sum(WhereClip whereClip,Column column)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string sqlWhereClip = "";
+            whereClip.GetPartmerStrings(excuteImport, ref sqlWhereClip, ref parameters);
+            string sqlStr = "SELECT SUM(" + column.Name + ") as SumValue FROM " + TableName + " WHERE " + sqlWhereClip;
+            //先获得object对象,然后再转换成decimal对象
+            object obj = excuteImport.ExecuteScalar(sqlStr, parameters);
+            decimal result = default(decimal);
+            if(obj != null)
+            {
+                decimal.TryParse(obj.ToString(), out result);
+            }
+            return result;
+        }
+
+        public int GetCountBySql(string sql, List<DbParameter> lstDbparameters)
+        {
+            //先获取一个OBJ，然后把结果转换类型后装入OBJ存起来
+            object obj = excuteImport.ExecuteScalar(sql, lstDbparameters);
+            int result = 0;
+            if (obj != null)
+            {
+                int.TryParse(obj.ToString(), out result);
+            }
+            return result;
+        }
+        #endregion
+
+        #region 操作方法（CURD）,带事务
+        public int InsertModel(IEntity iEntity,DBtransaction dbtran)
+        {
+            return excuteImport.ExcuteNotQuery(iEntity.GetInsertPlate(), iEntity.GetFullParmeters(), dbtran);
+        }
+
+        public int UpdateModel(IEntity iEntity, DBtransaction dbtran)
+        {
+            return excuteImport.ExcuteNotQuery(iEntity.GetUpdatePlate(), iEntity.GetFullParmeters(), dbtran);
+        }
+
+        public int DeleteModel(IEntity iEntity, DBtransaction dbtran)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string sqlStr = "";
+            parameters.Add(excuteImport.CreateDbParameter("@"+PrimaryKey, iEntity.PrimaryKeyValue));
+            sqlStr = " DELETE " + TableName + " WHERE " + PrimaryKey + "=@PrimaryKey";
+            return excuteImport.ExcuteNotQuery(sqlStr, parameters, dbtran);
         }
         #endregion
     }

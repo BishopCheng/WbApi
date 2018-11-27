@@ -101,7 +101,7 @@ namespace SQLServer
 
         bool IsExist(WhereClip whereClip);
 
-        bool IsExist(object primaryKey);
+        bool IsExist(object primaryValue);
        
         /// <summary>
         /// 条件统计
