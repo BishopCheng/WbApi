@@ -85,9 +85,9 @@ namespace SQLServer
         /// <returns></returns>
         int DeleteModel(object primaryKey);
 
-        int Insert(InsertClip InsertClip);
+        int Insert(InsertClip insertClip);
 
-        int Update(UpdateClip UpdateClip, WhereClip WhereClip);
+        int Update(UpdateClip updateClip, WhereClip whereClip);
 
         int Delete(WhereClip whereClip);
 
@@ -140,15 +140,15 @@ namespace SQLServer
 
         EntityGenerics<DB, T>Select(SelectName selectName);
 
-        EntityGenerics<DB, T>Join(IEntity OtherT);
+        EntityGenerics<DB, T>Join(IEntity otherT);
 
-        EntityGenerics<DB, T>InnerJoin(IEntity OtherT, Column A, Column B);
+        EntityGenerics<DB, T>InnerJoin(IEntity otherT, Column A, Column B);
 
-        EntityGenerics<DB, T>LeftJoin(IEntity OtherT, Column A, Column B);
+        EntityGenerics<DB, T>LeftJoin(IEntity otherT, Column A, Column B);
 
-        EntityGenerics<DB, T> RigthJoin(IEntity OtherT, Column A, Column B);
+        EntityGenerics<DB, T> RigthJoin(IEntity otherT, Column A, Column B);
 
-        EntityGenerics<DB, T> FullJoin(IEntity OtherT, Column A, Column B);
+        EntityGenerics<DB, T> FullJoin(IEntity otherT, Column A, Column B);
         /// <summary>
         /// 获取实体
         /// </summary>

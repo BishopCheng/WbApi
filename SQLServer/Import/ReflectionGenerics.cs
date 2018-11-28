@@ -196,6 +196,10 @@ namespace SQLServer
                 }
                 return selectName_;
             }
+            set
+            {
+                selectName_ = value;
+            }
         }
 
         #region  SQL操作类型参数项
@@ -209,6 +213,10 @@ namespace SQLServer
                 }
                 return updateClip_;
             }
+            set
+            {
+                updateClip_ = value;
+            }
         }
 
         public InsertClip InsertClip
@@ -220,6 +228,10 @@ namespace SQLServer
                     insertClip_ = new InsertClip();
                 }
                 return insertClip_;
+            }
+            set
+            {
+                insertClip_ = value;
             }
             
         }
@@ -234,9 +246,13 @@ namespace SQLServer
                 }
                 return orderByClip_;
             }
+            set
+            {
+                orderByClip_ = value;
+            }
         }
 
-        public GroupByClip groupByClip
+        public GroupByClip GroupByClip
         {
             get
             {
@@ -246,9 +262,13 @@ namespace SQLServer
                 }
                 return groupByClip_;
             }
+            set
+            {
+                groupByClip_ = value;
+            }
         }
 
-        public WhereClip whereClip
+        public WhereClip WhereClip
         {
             get
             {
@@ -257,6 +277,10 @@ namespace SQLServer
                     whereClip_ = new WhereClip();
                 }
                 return whereClip_;
+            }
+            set
+            {
+                whereClip_ = value;
             }
         }
 
@@ -616,6 +640,154 @@ namespace SQLServer
             parameters.Add(excuteImport.CreateDbParameter("@"+PrimaryKey, iEntity.PrimaryKeyValue));
             sqlStr = " DELETE " + TableName + " WHERE " + PrimaryKey + "=@PrimaryKey";
             return excuteImport.ExcuteNotQuery(sqlStr, parameters, dbtran);
+        }
+
+        public int DeleteModel(object primaryKey,DBtransaction dbtran)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string sqlStr = "";
+            parameters.Add(excuteImport.CreateDbParameter("@" + PrimaryKey, primaryKey));
+            sqlStr = " DELETE " + TableName + " WHERE " + PrimaryKey + "=@PrimaryKey";
+            return excuteImport.ExcuteNotQuery(sqlStr, parameters, dbtran);
+        }
+
+        
+        public int DeleteModel(Collection<object> primaryKeyList,DBtransaction dbtran)
+        {
+            string text = "";
+            List<DbParameter> list = new List<DbParameter>();
+            int count = primaryKeyList.Count;
+            for (int i = 0; i < count; i++)
+            {
+                //将所有primaryKey添加到集合中,如果是第一个，直接添加,如果不是第一个,则加入逗号后添加
+                text = ((text.Length != 0) ? (text + "," + excuteImport.sqlSetting.Flag + i.ToString()) : (text + excuteImport.sqlSetting.Flag + i.ToString()));
+                list.Add(excuteImport.CreateDbParameter(excuteImport.sqlSetting.Flag + PrimaryKey + i.ToString(), primaryKeyList[i]));
+            }
+            string sqlStr = string.Format(excuteImport.sqlSetting.DeleteModel_sql_In, TableName, PrimaryKey, text);
+            return excuteImport.ExcuteNotQuery(sqlStr, list, dbtran);
+        }
+
+        public int Insert(InsertClip insertClip,DBtransaction dbtran)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string sqlInsert = "";
+            insertClip.GetParameterString(excuteImport, ref sqlInsert, ref parameters);
+            string sqlStr = "INSERT " + TableName + sqlInsert;
+            return excuteImport.ExcuteNotQuery(sqlStr, parameters,dbtran);            
+        }
+
+        public int Update(UpdateClip updateClip,WhereClip whereClip,DBtransaction dbtran)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string updateSql = "";
+            string whereSql = "";
+            updateClip.GetParamString(excuteImport, ref updateSql, ref parameters);
+            whereClip.GetPartmerStrings(excuteImport, ref whereSql, ref parameters);
+            string sqlStr = "UPDATE " + TableName + " " + updateSql + " WHERE " + whereSql;
+            return excuteImport.ExcuteNotQuery(sqlStr, parameters, dbtran);
+        }
+
+        public int Delete(WhereClip whereClip,DBtransaction dbtran)
+        {
+            List<DbParameter> parameters = new List<DbParameter>();
+            string sqlWhereClip = "";
+            whereClip.GetPartmerStrings(excuteImport, ref sqlWhereClip, ref parameters);
+            string sqlStr = "DELETE " + TableName + " " + "WHERE " + sqlWhereClip;
+            return excuteImport.ExcuteNotQuery(sqlStr, parameters, dbtran);
+        }
+
+        public IEntity GetModel(object primaryKey)
+        {
+            string sql = "SELECT * FROM " + TableName + " WHERE " + PrimaryKey + "=@" + PrimaryKey;
+            List<DbParameter> parameters = new List<DbParameter>();
+            parameters.Add(excuteImport.CreateDbParameter("@" + PrimaryKey, primaryKey));
+            //用Excute方法获取查找的资源
+            IEnumerable<IEntity> source = excuteImport.Excute<IEntity>(sql, parameters);
+            return source.FirstOrDefault();
+        }
+        #endregion
+
+        #region 类的构造函数
+        public ReflectionGenerics Select()
+        {
+            ClearCondition();
+            return this;
+        }
+
+        public ReflectionGenerics Select(SelectName selectName)
+        {
+            ClearCondition();
+            foreach (ColumnStruct item in selectName)
+            {
+                SelectName.Add(item);
+            }
+            return this;
+        }
+
+        public ReflectionGenerics SetOrderByClip(OrderByClip orderByClip)
+        {
+            foreach (ItemStruct item in orderByClip)
+            {
+                OrderByClip.Add(item);
+            }
+            return this;
+        }
+
+        public ReflectionGenerics SetWhereClip(ConditionItem whereClip)
+        {
+            WhereClip.Add(whereClip);
+            return this;
+        }
+
+        public ReflectionGenerics SetWhereClip(WhereClip whereClip)
+        {
+            if (whereClip.flag)
+            {
+                //获取whereClip中的参数个数
+                for (int i = 0; i < whereClip.Count; i++)
+                {
+                    WhereClip.AddClip((ConditionItem)whereClip[i]);
+                }
+            }
+            else
+            {
+                for (int j = 0;  j < whereClip.Count;  j++)
+                {
+                    //如果是符号类型，whereClip中加入symol类型对象,否则加入conditionItem类型对象
+                    if(whereClip[j] is Symbol)
+                    {
+                        WhereClip.AddComClip((Symbol)whereClip[j]);
+                    }
+                    else
+                    {
+                        WhereClip.AddComClip((ConditionItem)whereClip[j]);
+                    }
+                }
+            }
+            return this;
+        }
+        
+        public ReflectionGenerics SetGroupByClip(Column groupByClip)
+        {
+
+        }
+
+
+        #endregion
+
+        #region 类本身方法
+        public void ClearCondition()
+        {
+            SelectName = new SelectName();
+            InsertClip = new InsertClip();
+            UpdateClip = new UpdateClip();
+            OrderByClip = new OrderByClip();
+            GroupByClip = new GroupByClip();
+            WhereClip = new WhereClip();
+            OtherT = new List<string>();
+            SKipNum = 0;
+            TakeNum = 0;
+            lstDbParmeters = new List<DbParameter>();
         }
         #endregion
     }

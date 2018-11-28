@@ -502,7 +502,7 @@ namespace SQLServer.Import
             return this;
         }
 
-        public int Insert(InsertClip InsertClip)
+        public int Insert(InsertClip insertClip)
         {
             List<DbParameter> lstDbParameter = new List<DbParameter>();
             string sqlInsert = "";
