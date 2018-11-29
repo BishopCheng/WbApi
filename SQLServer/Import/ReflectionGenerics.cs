@@ -769,13 +769,90 @@ namespace SQLServer
         
         public ReflectionGenerics SetGroupByClip(Column groupByClip)
         {
+            GroupByClip.Add(groupByClip);
+            return this;
+        }
 
+
+        public ReflectionGenerics SetGroupByClip(GroupByClip groupByClip)
+        {
+            foreach (Column item in groupByClip)
+            {
+                GroupByClip.Add(item);
+            }
+            return this;
+        }
+
+        public ReflectionGenerics GetByRange(int skipNum,int takeNum)
+        {
+            SKipNum = skipNum;
+            TakeNum = takeNum;
+            return this;
         }
 
 
         #endregion
 
         #region 类本身方法
+
+        public IEnumerable<IEntity> ToList()
+        {
+            return excuteImport.Excute<IEntity>(ToString(), lstDbParmeters);
+        }
+
+        public PageData<IEntity>ToList(int pageIndex,int pageSize)
+        {
+            string text = "";
+            //先取出OrderByClip中的item，再取出WhereClip中的item
+            foreach (ItemStruct item in OrderByClip)
+            {
+                if (text.Length > 0)
+                {
+                    text += ",";
+                }
+                text = item.Value + "";
+            }
+            string groupByStr = GroupByClip.ToString();
+            PageData<IEntity> pageData = new PageData<IEntity>();
+            if (WhereClip.Count <=0)
+            {
+                //没有where条件,直接返回结果,使用sqlSetting的SerchSQL语句模型
+                List<string> list = excuteImport.sqlSetting.Search_sql(TableName, GetSelectField(), GetJoin(), "", text, groupByStr, pageIndex, pageSize, true, PrimaryKey, 2018);
+                return excuteImport.ExecutePagerData<IEntity>(list[0], list[1], null);
+            }
+            //有Where条件,添加Dbparamerts
+            List<DbParameter> parameters = new List<DbParameter>();
+            string sqlWhereClip = "";
+            WhereClip.GetPartmerStrings(excuteImport, ref sqlWhereClip, ref parameters);
+            List<string> list2 = excuteImport.sqlSetting.Search_sql(TableName, GetSelectField(), GetJoin(), sqlWhereClip, text, groupByStr, pageIndex, pageSize, true, PrimaryKey, 2018);
+            return excuteImport.ExecutePagerData<IEntity>(list2[0], list2[1], parameters);
+            
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("SELECT");
+            if(TakeNum == 0)
+            {
+                stringBuilder.Append(GetSelectField());
+                stringBuilder.Append(" FROM " + TableName);
+                GetCondition(ref stringBuilder);
+            }
+            else
+            {
+                stringBuilder.Append(" TOP " + TakeNum);
+                stringBuilder.Append(" " + GetSelectField());
+                stringBuilder.Append(" FROM " + TableName+GetJoin());
+                stringBuilder.Append(" WHERE " + PrimaryKey + " NOT IN ");
+                stringBuilder.Append("(SELECT TOP" + SKipNum + " " + PrimaryKey);
+                stringBuilder.Append(" FROM " + TableName);
+                stringBuilder.Append(" " + GetCondition(true));
+                stringBuilder.Append(" " + GetCondition(false));
+            }
+            return stringBuilder.ToString();
+        }
+
         public void ClearCondition()
         {
             SelectName = new SelectName();
@@ -788,6 +865,79 @@ namespace SQLServer
             SKipNum = 0;
             TakeNum = 0;
             lstDbParmeters = new List<DbParameter>();
+        }
+
+        private string GetSelectField()
+        {
+            //如果没有selectName，默认搜索全部,返回*
+            if (SelectName.Count <=0)
+            {
+                return "*";
+            }
+            return SelectName.ToString();
+        }
+
+        private string GetJoin()
+        {
+            string text = "";
+            foreach (string item in OtherT)
+            {
+                text += item;
+            }
+            return text;
+        }
+
+        private string GetCondition(bool flag)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(GetJoin());
+            if (WhereClip.Count >0)
+            {
+                string sqlWhereClip = "";
+                List<DbParameter> parameters = new List<DbParameter>();
+                WhereClip.GetPartmerStrings(excuteImport, ref sqlWhereClip, ref parameters);
+                lstDbParmeters.AddRange(parameters);
+                if (flag)
+                {
+                    //是where条件语句的头部
+                    stringBuilder.Append(" WHERE " + sqlWhereClip);
+                }
+                else
+                {
+                    stringBuilder.Append(" AND " + sqlWhereClip);
+                }
+            }
+            if (GroupByClip.Count > 0)
+            {
+                stringBuilder.Append(" GROUP BY " + GroupByClip.ToString());
+            }
+            if (OrderByClip.Count > 0)
+            {
+                stringBuilder.Append(" ORDER BY " + OrderByClip.ToString());
+            }
+            return stringBuilder.ToString();
+        }
+
+        public void GetCondition(ref StringBuilder strBuilder)
+        {
+            strBuilder.Append(GetJoin());
+            if (WhereClip.Count > 0)
+            {
+                string sqlWhereClip = "";
+                List<DbParameter> parameters = new List<DbParameter>();
+                WhereClip.GetPartmerStrings(excuteImport, ref sqlWhereClip, ref parameters);
+                lstDbParmeters.AddRange(parameters);
+                strBuilder.Append(" WHERE " + sqlWhereClip);
+            }
+            if (GroupByClip.Count > 0)
+            {
+                strBuilder.Append(" GROUP BY " + GroupByClip.ToString());
+            }
+            if (OrderByClip.Count > 0)
+            {
+                strBuilder.Append(" ORDER BY " + OrderByClip.ToString());
+            }
+            
         }
         #endregion
     }
