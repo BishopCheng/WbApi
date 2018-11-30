@@ -29,9 +29,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBFactory", "DBFactory\DBFa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLSettings", "SQLSettings\SQLSettings.csproj", "{60D91D48-60BC-47C7-8F86-6849A0AA1FE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIServer.Common", "APIServer.Common\APIServer.Common.csproj", "{57DD032F-6B39-4638-8582-863D0B16DE4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIServer.Common", "APIServer.Common\APIServer.Common.csproj", "{57DD032F-6B39-4638-8582-863D0B16DE4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIServer.Models", "APIServer.Models\APIServer.Models.csproj", "{D98B18A8-2A2B-4109-84FE-317B9A5C8C2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIServer.Models", "APIServer.Models\APIServer.Models.csproj", "{D98B18A8-2A2B-4109-84FE-317B9A5C8C2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBDictionary", "DBDictionary\DBDictionary.csproj", "{379E647A-C980-4035-BA7B-A0E1C83C75BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +101,10 @@ Global
 		{D98B18A8-2A2B-4109-84FE-317B9A5C8C2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D98B18A8-2A2B-4109-84FE-317B9A5C8C2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D98B18A8-2A2B-4109-84FE-317B9A5C8C2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{379E647A-C980-4035-BA7B-A0E1C83C75BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{379E647A-C980-4035-BA7B-A0E1C83C75BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{379E647A-C980-4035-BA7B-A0E1C83C75BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{379E647A-C980-4035-BA7B-A0E1C83C75BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
