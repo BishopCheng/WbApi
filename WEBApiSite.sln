@@ -33,7 +33,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIServer.Common", "APIServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIServer.Models", "APIServer.Models\APIServer.Models.csproj", "{D98B18A8-2A2B-4109-84FE-317B9A5C8C2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBDictionary", "DBDictionary\DBDictionary.csproj", "{379E647A-C980-4035-BA7B-A0E1C83C75BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBDictionary", "DBDictionary\DBDictionary.csproj", "{379E647A-C980-4035-BA7B-A0E1C83C75BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreFrameLibraries", "CoreFrameLibraries", "{3FD69F01-7317-4AB8-992E-73C9CE387BDD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{437FB148-5246-451D-9BE3-7583E5B659D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StandardizedLibraries", "StandardizedLibraries", "{9E0DFD5E-67C2-4CDD-9EBB-610EB3132598}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{7ACED839-D55D-495D-8CD0-4B1AFB5AB20D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataEntity", "DataEntity", "{9B1C36E2-90A2-468D-AD34-6DD17A7FA645}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

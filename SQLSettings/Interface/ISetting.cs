@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SQLSettings
+namespace SQLSettings { 
     /// <summary>
     /// SQL语句接口
     /// 作者：程淮榕
