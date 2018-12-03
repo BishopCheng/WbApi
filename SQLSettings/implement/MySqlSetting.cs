@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using SQLSettings.Interface;
 
-namespace SQLSettings.implement
+
+namespace SQLSettings
 {
     /// <summary>
     /// MySql数据库接口实现
