@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DBDictionary\DBDictionary.csproj" />
     <ProjectReference Include="..\SQLSettings\SQLSettings.csproj" />
   </ItemGroup>
 
