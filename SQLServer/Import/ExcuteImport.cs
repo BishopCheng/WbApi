@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Text;
 using SQLSettings;
-using SQLSettings.Interface;
+
 
 namespace SQLServer
 {
