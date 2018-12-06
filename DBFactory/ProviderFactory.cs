@@ -86,7 +86,7 @@ namespace DBFactory
         /// </summary>
         /// <param name="dbProviderTypeName"></param>
         /// <returns></returns>
-        private static DbProviderType GetDbProviderType(string dbProviderTypeName)
+        public static DbProviderType GetDbProviderType(string dbProviderTypeName)
         {
             switch (dbProviderTypeName)
             {

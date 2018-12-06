@@ -22,6 +22,41 @@ namespace SQLServer
         public ISetting sqlSetting;                     //通过接口引用SQL字符串拼接类
         private DbProviderFactory providerFactory;     //创建数据源类工厂
         private int commandTimeOut = 0;                //将延时设定为0
+
+        public string ConnectionString
+        {
+            get
+            {
+                return connectionString;
+            }
+            set
+            {
+                //如果连接字符串为空或者连接字符串不等于当前值时，进行赋值操作
+                if(connectionString == null || !connectionString.Equals(value))
+                {
+                    connectionString = value;
+                }
+            }
+        }
+
+        private int CommandTimeOut
+        {
+            //如果等于0的话，则设置
+
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public ExcuteImport() { }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="providTypeName">驱动类型名称</param>
+        public ExcuteImport(string connectionString,string providTypeName) { }
+
         public DbCommand CreateDbCommand(string sql, List<DbParameter> lstDbParameter, CommandType commandType)
         {
             DbConnection dbconection = null;  //创建链接
