@@ -9,8 +9,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.0.12" />
-    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.12" />
+    <PackageReference Include="MySql.Data" Version="8.0.13" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.13" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\APIServer.Models\APIServer.Models.csproj" />
+    <ProjectReference Include="..\CacheServer\ApiServer.CacheServer.csproj" />
+    <ProjectReference Include="..\CommonTool\ApiServer.CommonTool.csproj" />
+    <ProjectReference Include="..\Configs\Configs.csproj" />
+    <ProjectReference Include="..\DBDictionary\DBDictionary.csproj" />
+    <ProjectReference Include="..\DBFactory\DBFactory.csproj" />
+    <ProjectReference Include="..\SQLServer\SQLServer.csproj" />
+    <ProjectReference Include="..\SQLSettings\SQLSettings.csproj" />
+    <ProjectReference Include="..\ValidateServer\ValidateServer.csproj" />
   </ItemGroup>
 
 </Project>

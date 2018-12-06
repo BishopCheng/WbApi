@@ -32,11 +32,45 @@ namespace Configs
                         dicDBConnectionModel_.Add(item.ConnectionName, item);
                     }
                 }
+                return dicDBConnectionModel_;
             }
-            set
-            {
+            
+        }
 
+        /// <summary>
+        /// 获取数据库连接模型
+        /// </summary>
+        /// <param name="dbConnectionStringModelName"></param>
+        /// <returns></returns>
+        public static DBConnectionStringModel GetDBConnectionStringModel(string dbConnectionStringModelName)
+        {
+            //如果字典中存在模型,返回模型，如果没有，返回错误信息不存在
+            if (DicDBConnectionModel.ContainsKey(dbConnectionStringModelName))
+            {
+                return DicDBConnectionModel[dbConnectionStringModelName];
             }
+            else
+            {
+                throw new Exception(string.Format("没有{0}数据库链接！", dbConnectionStringModelName));
+            }
+        }
+
+        /// <summary>
+        /// 获取连接模型延时
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns></returns>
+        public static int GetDBConnectionStringTimeOut(string connectionString)
+        {
+            foreach (DBConnectionStringModel item in DicDBConnectionModel.Values)
+            {
+                if (item.ConnectionString.Equals(connectionString))
+                {
+                    return item.TimeOut;
+                }
+            }
+            return 60;
+          
         }
     }
 }
