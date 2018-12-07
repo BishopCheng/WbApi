@@ -34,10 +34,17 @@ namespace SQLServer
             return null;
         }
 
-        public virtual object SetColumnValue(string columnName)
+
+        public virtual void SetColumnValue(string columnName,object value)
+        {
+          
+        }
+
+        public virtual IEntity Copy()
         {
             return null;
         }
+
         public virtual bool HasColumn(string columnName)
         {
             return false;
