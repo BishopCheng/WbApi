@@ -118,7 +118,21 @@ namespace ApiServer.Entity
             }
         }
 
-        public override string ProvidName => throw new NotImplementedException();
+        /// <summary>
+        /// 驱动名称
+        /// </summary
+        public override string ProvidName {
+            get { 
+            
+                if(string.IsNullOrEmpty(providerName_))
+                {
+                 //先获取链接实体，再获取驱动名称
+                 DBConnectionStringModel dBConnectionStringModel = ConnectionStringOperate.GetDBConnectionStringModel("dbplatform");
+                providerName_ = dBConnectionStringModel.ProviderName;
+                }
+                 return providerName_;
+            }
+        }
 
 
         private static SQLServer.ExcuteImport excuteImport_;
@@ -134,6 +148,7 @@ namespace ApiServer.Entity
                 {
                     excuteImport_ = new SQLServer.ExcuteImport(ConnectionString, ProvidName);
                 }
+                return excuteImport_;
             }
         }
     }

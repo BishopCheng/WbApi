@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Data.Common;
 using System.Linq;
 
-namespace SQLServer.Import
+namespace SQLServer
 {
     /// <summary>
     /// 反射实体类

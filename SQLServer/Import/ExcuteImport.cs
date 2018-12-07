@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Text;
 using SQLSettings;
-
+using Configs;
 
 namespace SQLServer
 {
@@ -42,7 +42,15 @@ namespace SQLServer
         private int CommandTimeOut
         {
             //如果等于0的话，则设置
-
+            get
+            {
+                if(commandTimeOut == 0)
+                {
+                    commandTimeOut = Configs.ConnectionStringOperate.GetDBConnectionStringTimeOut(ConnectionString);
+                }
+                return commandTimeOut;
+            }
+            
         }
 
         /// <summary>
