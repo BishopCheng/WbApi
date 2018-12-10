@@ -20,7 +20,7 @@ namespace SQLServer
 
         public virtual string PrimaryKey => "";
 
-        public virtual string OrderField => "";
+        public virtual string OrderFiled => "";
 
         public virtual object PrimaryKeyValue => "";
 

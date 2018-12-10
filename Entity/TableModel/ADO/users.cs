@@ -50,11 +50,11 @@ namespace ApiServer.Entity
         {
             get { return "Id"; }
         }
-        //[JsonIgnore]
-        //public override string OrderFiled
-        //{
-        //    get { return "Id"; }
-        //}
+        [JsonIgnore]
+        public override string OrderFiled
+        {
+            get { return "Id"; }
+        }
         [JsonIgnore]
         public override object PrimaryKeyValue
         {
