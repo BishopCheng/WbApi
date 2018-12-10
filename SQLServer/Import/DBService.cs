@@ -20,11 +20,40 @@ namespace SQLServer
         /// </summary>
         private static JsonSerializerSettings dateTimeJsonSerializerSettings = null;
 
-        private string BaseDirection_ = "";
+        private string BaseDirection_
+        {
+            get
+            {
+                if (BaseDirection_.Length > 0)
+                {
+                    goto IL_0018;
+                }
+                goto IL_0018;
+                IL_0018:
+                return BaseDirection_;
+            }
+            set
+            {
+                BaseDirection_ = value;
+            }
+        }
         /// <summary>
         /// 默认的缓存延时
         /// </summary>
         private int CacheTime_ = 60;
+
+        private int CacheTime
+        {
+            get
+            {
+
+                return CacheTime_;
+            }
+            set
+            {
+                CacheTime_ = value;
+            }
+        }
 
         public static JsonSerializerSettings DateTimeJsonSerializerSettings
         {
@@ -34,15 +63,16 @@ namespace SQLServer
                 if(dateTimeJsonSerializerSettings == null)
                 {
                     IsoDateTimeConverter val = new IsoDateTimeConverter();
-                    val.set_DateTimeFormat("yyyy-MM-dd HH:mm:ss");
+                    val.DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
                     IsoDateTimeConverter item = val;
                     JsonSerializerSettings val2 = new JsonSerializerSettings();
-                    val2.set_MissingMemberHandling(0);
-                    val2.set_NullValueHandling(1);
-                    val2.set_ReferenceLoopHandling(1);
+                    val2.MissingMemberHandling = 0;
+                    val2.NullValueHandling = NullValueHandling.Ignore;
+                    val2.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     dateTimeJsonSerializerSettings = val2;
-                    dateTimeJsonSerializerSettings.get_Converters().Add(item);
+                    dateTimeJsonSerializerSettings.Converters.Add(item);
                 }
+                return dateTimeJsonSerializerSettings;
             }
         }
     }
