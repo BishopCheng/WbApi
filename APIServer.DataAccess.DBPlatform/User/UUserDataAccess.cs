@@ -5,7 +5,7 @@ using ApiServer.Entity;
 using ApiServer.EntityHandling;
 using SQLServer;
 
-namespace APIServer.DataAccess.DBPlatform.User
+namespace APIServer.DataAccess.DBPlatform
 {
     class UUserDataAccess
     {
