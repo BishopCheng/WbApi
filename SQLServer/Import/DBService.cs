@@ -75,5 +75,31 @@ namespace SQLServer
                 return dateTimeJsonSerializerSettings;
             }
         }
+
+        public string BanthInsert(List<T>tList,string userName)
+        {
+
+        }
+
+        public string BanthInsert(List<T> tList) {
+
+        }
+
+        public string BanthInsert(List<T>tList,string userName,string changeBantch,ref DBtransaction dbtran)
+        {
+
+        }
+
+        public string BantchInsert(List<T>tList,ref DBtransaction dbtran)
+        {
+
+        }
+
+        public string BantchUpdate(List<T> tList)
+        {
+
+        }
+
+        public string BantchUpdate(List<T>tList)
     }
 }
