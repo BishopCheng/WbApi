@@ -78,28 +78,63 @@ namespace SQLServer
 
         public string BanthInsert(List<T>tList,string userName)
         {
-
+            int num = EntityGenerics<DB, T>.Instance.BanthInsert(tList);
+            return (num > 0) ? "" : "批量添加失败";
         }
 
         public string BanthInsert(List<T> tList) {
-
+            int num = EntityGenerics<DB, T>.Instance.BanthInsert(tList);
+            return (num > 0) ? "" : "批量添加失败";
         }
 
-        public string BanthInsert(List<T>tList,string userName,string changeBantch,ref DBtransaction dbtran)
+        public string BanthInsert(List<T>tList,string userName,string changeBantch,ref DBtransaction dbTran)
         {
-
+            int num = EntityGenerics<DB, T>.Instance.BanthInsert(tList,dbTran);
+            return (num > 0) ? "" : "批量添加失败";
         }
 
-        public string BantchInsert(List<T>tList,ref DBtransaction dbtran)
+        public string BantchInsert(List<T>tList,ref DBtransaction dbTran)
         {
-
+            int num = EntityGenerics<DB, T>.Instance.BanthInsert(tList, dbTran);
+            return (num > 0) ? "" : "批量添加失败";
         }
 
         public string BantchUpdate(List<T> tList)
         {
-
+            int num = EntityGenerics<DB, T>.Instance.BanthInsert(tList);
+            return (num > 0) ? "" : "批量添加失败";
         }
 
-        public string BantchUpdate(List<T>tList)
+        public string BantchUpdate(List<T> oldList,List<T>tList,string userName)
+        {
+            int num = EntityGenerics<DB, T>.Instance.BanthUpdate(tList);
+            return (num > 0) ? "" : "批量更新失败";
+        }
+
+        public string BantchUpdate(List<T> tList,ref DBtransaction dbTran)
+        {
+            int num = EntityGenerics<DB, T>.Instance.BanthUpdate(tList);
+            return (num > 0) ? "" : "批量更新失败";
+        }
+
+        public string BantchUpdate(List<T> oldtList, List<T> tList, string userName, string changeBanth, ref DBtransaction dbTran)
+        {
+            int num = EntityGenerics<DB, T>.Instance.BanthUpdate(tList,dbTran);
+            return (num > 0) ? "" : "批量更新失败";
+        }
+
+        public string BantchDelete(List<T>tList,string userName)
+        {
+            int num = EntityGenerics<DB, T>.Instance.BanthDelete(tList);
+            return (num > 0) ? "" : "批量删除失败";
+        }
+
+        public string BantchDelete(List<T> tList)
+        {
+            int num = EntityGenerics<DB, T>.Instance.BanthDelete(tList);
+            return (num > 0) ? "" : "批量删除失败";
+        }
+
+
     }
 }
