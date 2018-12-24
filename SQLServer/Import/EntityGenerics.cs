@@ -476,6 +476,22 @@ namespace SQLServer
             return dbExcute.GetMaxID(column.Name, TableName);
         }
 
+
+        public Decimal Sum(WhereClip whereClip,Column column)
+        {
+            List<DbParameter> lstDbParameters = new List<DbParameter>();
+            string sqlWhereClip = "";
+            whereClip.GetPartmerStrings(dbExcute, ref sqlWhereClip, ref lstDbParameters);
+            string sql = string.Format(dbExcute.sqlSetting.Sum_sql, column.Name, TableName, whereClip);
+            object obj = dbExcute.ExecuteScalar(sql, lstDbParameters);
+            decimal result = default(Decimal);
+            if (obj != null)
+            {
+                decimal.TryParse(obj.ToString(), out result);
+            }
+            return result;
+        }
+
         public int GetCountBySql(string sql, List<DbParameter> lstDbparameters)
         {
             object obj = dbExcute.ExecuteScalar(sql, lstDbparameters);
