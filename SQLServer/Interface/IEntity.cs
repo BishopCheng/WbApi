@@ -78,7 +78,7 @@ namespace SQLServer
             return null;
         }
 
-        public virtual List<DbParameter> GetFullParmeters()
+        public virtual List<DbParameter> GetFullParameters()
         {
             return null;
         }

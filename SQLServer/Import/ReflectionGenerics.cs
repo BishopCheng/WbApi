@@ -377,7 +377,7 @@ namespace SQLServer
             IList<List<DbParameter>> list = new List<List<DbParameter>>();
             foreach (IEntity t in tlist)
             {
-                list.Add(t.GetFullParmeters());
+                list.Add(t.GetFullParameters());
             }
             if(dbtran != null)
             {
@@ -396,7 +396,7 @@ namespace SQLServer
             IList<List<DbParameter>> parameterList = new List<List<DbParameter>>();
             foreach (IEntity t in tlist)
             {
-                parameterList.Add(t.GetFullParmeters());
+                parameterList.Add(t.GetFullParameters());
             }
             if (dbtran != null)
             {
@@ -441,7 +441,7 @@ namespace SQLServer
             foreach (IEntity T in tlist)
             {
                 //写入参数
-                list.Add(T.GetFullParmeters());
+                list.Add(T.GetFullParameters());
             }
             if (dbtran != null)
             {
@@ -479,7 +479,7 @@ namespace SQLServer
             for (int i = 0; i < count; i++)
             {
                 string text = str;
-                List<DbParameter> fullParmeters = tlist[i].GetFullParmeters(); //获取所有的Parameters
+                List<DbParameter> fullParmeters = tlist[i].GetFullParameters(); //获取所有的Parameters
                 int count2 = fullParmeters.Count;
                 //把每一个ParameterName加上序号
                 for (int j = 0; j < count2; j++)
@@ -498,11 +498,11 @@ namespace SQLServer
         }
 
         public int InsertModel(IEntity iEntity) {
-            return excuteImport.ExcuteNotQuery(IEntity.GetInsertPlate(), IEntity.GetFullParmeters());
+            return excuteImport.ExcuteNotQuery(IEntity.GetInsertPlate(), IEntity.GetFullParameters());
         }
 
         public int UpdateModel(IEntity iEntity) {
-            return excuteImport.ExcuteNotQuery(IEntity.GetUpdatePlate(), IEntity.GetFullParmeters());
+            return excuteImport.ExcuteNotQuery(IEntity.GetUpdatePlate(), IEntity.GetFullParameters());
         }
 
         public int DeleteModel(IEntity iEntity) {
@@ -625,12 +625,12 @@ namespace SQLServer
         #region 操作方法（CURD）,带事务
         public int InsertModel(IEntity iEntity,DBtransaction dbtran)
         {
-            return excuteImport.ExcuteNotQuery(iEntity.GetInsertPlate(), iEntity.GetFullParmeters(), dbtran);
+            return excuteImport.ExcuteNotQuery(iEntity.GetInsertPlate(), iEntity.GetFullParameters(), dbtran);
         }
 
         public int UpdateModel(IEntity iEntity, DBtransaction dbtran)
         {
-            return excuteImport.ExcuteNotQuery(iEntity.GetUpdatePlate(), iEntity.GetFullParmeters(), dbtran);
+            return excuteImport.ExcuteNotQuery(iEntity.GetUpdatePlate(), iEntity.GetFullParameters(), dbtran);
         }
 
         public int DeleteModel(IEntity iEntity, DBtransaction dbtran)

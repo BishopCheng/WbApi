@@ -304,7 +304,7 @@ namespace SQLServer
             List<List<DbParameter>> list = new List<List<DbParameter>>();
             foreach (T t in tList)
             {
-                list.Add(t.GetFullParmeters());
+                list.Add(t.GetFullParameters());
             }
             if(dbtran != null) //如果事务不为空,则执行事务
             {
@@ -323,7 +323,7 @@ namespace SQLServer
             List<List<DbParameter>> list = new List<List<DbParameter>>();
             foreach (T t in tList)
             {
-                list.Add(t.GetFullParmeters());
+                list.Add(t.GetFullParameters());
             }
             if(dbtran!=null)
             {
@@ -536,12 +536,12 @@ namespace SQLServer
 
         public int InsertModel(T t)
         {
-            return dbExcute.ExcuteNotQuery(t.GetInsertPlate(), t.GetFullParmeters());
+            return dbExcute.ExcuteNotQuery(t.GetInsertPlate(), t.GetFullParameters());
         }
 
         public int InsertModel(T t, DBtransaction dbtran)
         {
-            return dbExcute.ExcuteNotQuery(t.GetInsertPlate(), t.GetFullParmeters(), dbtran);
+            return dbExcute.ExcuteNotQuery(t.GetInsertPlate(), t.GetFullParameters(), dbtran);
         }
 
         public bool IsExist(WhereClip whereClip)
@@ -776,12 +776,12 @@ namespace SQLServer
 
         public int UpdateModel(T t)
         {
-            return dbExcute.ExcuteNotQuery(t.GetUpdatePlate(), t.GetFullParmeters());
+            return dbExcute.ExcuteNotQuery(t.GetUpdatePlate(), t.GetFullParameters());
         }
 
         public int UpdateModel(T t, DBtransaction dbtran)
         {
-            return dbExcute.ExcuteNotQuery(t.GetUpdatePlate(), t.GetFullParmeters());
+            return dbExcute.ExcuteNotQuery(t.GetUpdatePlate(), t.GetFullParameters());
         }
 
         #region 私有方法
