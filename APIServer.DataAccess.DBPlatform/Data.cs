@@ -1,5 +1,5 @@
 ﻿using System;
-
+using APIServer.DataAccess.DBPlatform.User;
 
 namespace APIServer.DataAccess.DBPlatform
 {
@@ -10,6 +10,12 @@ namespace APIServer.DataAccess.DBPlatform
     /// </summary>
     public class Data
     {
-        public UUserDataAccess UUser = new UUserDataAccess();  //用户表数据库功能访问类
+        #region 表单
+        public static UserDataAccess UserData = new UserDataAccess();   //用户数据访问类
+        #endregion
+
+        #region 视图
+        public static VUserUserGroupDataAccess VUserGroupData = new VUserUserGroupDataAccess();  //用户-用户组数据访问类
+        #endregion
     }
 }

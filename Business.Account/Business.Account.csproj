@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\APIServer.DataAccess.DBPlatform\APIServer.DataAccess.DBPlatform.csproj" />
+    <ProjectReference Include="..\CacheServer\ApiServer.CacheServer.csproj" />
+    <ProjectReference Include="..\Entity\ApiServer.Entity.csproj" />
+    <ProjectReference Include="..\SQLServer\SQLServer.csproj" />
+    <ProjectReference Include="..\ValidateServer\ValidateServer.csproj" />
+  </ItemGroup>
+
+</Project>
