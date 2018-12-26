@@ -55,9 +55,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configs", "Configs\Configs.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIServer.DataAccess.DBPlatform", "APIServer.DataAccess.DBPlatform\APIServer.DataAccess.DBPlatform.csproj", "{CEB17322-A346-4C3B-B84B-2A65A10A4CF6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{98234DF6-EB02-40A2-94DB-BE850FBB778A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIService", "APIService", "{98234DF6-EB02-40A2-94DB-BE850FBB778A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Account", "Business.Account\Business.Account.csproj", "{2702A76E-2F46-4CB4-9E6D-0FB8BFDC2960}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Account", "Business.Account\Business.Account.csproj", "{2702A76E-2F46-4CB4-9E6D-0FB8BFDC2960}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
