@@ -119,7 +119,6 @@ namespace ValidateServer
                 codeString = CodeStr + "";                 //通过out返回要验证的string
                 return ms;                                 //返回数据流
             }
-
         }
     }
 }
