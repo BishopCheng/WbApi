@@ -63,9 +63,9 @@ namespace SQLServer
             {
                 if(db_ == null)
                 {
-                    db_ = dB;
+                    db_ = new DB();
                 }
-                return dB;
+                return db_;
             }
         }
 

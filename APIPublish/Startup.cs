@@ -27,6 +27,13 @@ namespace APIPublish
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
+
+        /// <summary>
+        /// 路由路径配置
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -34,7 +41,16 @@ namespace APIPublish
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            //路由配置
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                      name:"default",
+                      template:"api/{controller}/{action}/{id?}",
+                      defaults:new { Controllers="Values",action="GET" });
+            }
+                
+           );
         }
     }
 }
