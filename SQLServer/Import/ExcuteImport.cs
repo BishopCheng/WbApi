@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Text;
 using SQLSettings;
 using Configs;
+using DBFactory;
 
 namespace SQLServer
 {
@@ -63,7 +64,15 @@ namespace SQLServer
         /// </summary>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="providTypeName">驱动类型名称</param>
-        public ExcuteImport(string connectionString,string providTypeName) { }
+        public ExcuteImport(string connectionString,string providTypeName) {
+            ConnectionString = connectionString;
+            providerFactory = ProviderFactory.GetProviderFactory(ProviderFactory.GetDbProviderType(providTypeName));
+            if(providerFactory == null)
+            {
+                throw new ArgumentException("不能为给定值providertype不会加载dbproviderfactory");
+            }
+            sqlSetting = ProviderFactory.GetSqlSetting(providTypeName);
+        }
 
         public DbCommand CreateDbCommand(string sql, List<DbParameter> lstDbParameter, CommandType commandType)
         {

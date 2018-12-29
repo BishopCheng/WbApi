@@ -18,6 +18,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Business.Account\Business.Account.csproj" />
+    <ProjectReference Include="..\Configs\Configs.csproj" />
+    <ProjectReference Include="..\Entity\ApiServer.Entity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

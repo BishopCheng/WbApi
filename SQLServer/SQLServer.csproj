@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ApiServer.EntityHandling\ApiServer.EntityHandling.csproj" />
     <ProjectReference Include="..\Configs\Configs.csproj" />
+    <ProjectReference Include="..\DBFactory\DBFactory.csproj" />
     <ProjectReference Include="..\SQLSettings\SQLSettings.csproj" />
   </ItemGroup>
 
