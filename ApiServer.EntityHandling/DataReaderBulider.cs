@@ -33,7 +33,8 @@ namespace ApiServer.EntityHandling
                 var properties = typeof(Entity).GetProperties();    //获取实体属性集合
                 for (int i = 0; i < dataRecord.FieldCount; i++)
                 {
-                    PropertyInfo propertyInfo = typeof(Entity).GetProperty(properties.FirstOrDefault(x=>x.Name.ToUpper().Equals(dataRecord.GetName(i)))?.Name);
+                    //PropertyInfo propertyInfo = typeof(Entity).GetProperty(properties.FirstOrDefault(x=>x.Name.ToUpper().Equals(dataRecord.GetName(i)))?.Name);
+                    PropertyInfo propertyInfo = typeof(Entity).GetProperty(dataRecord.GetName(i));
                     Label endIfLabel = generator.DefineLabel();
                     if(propertyInfo!=null && propertyInfo.GetSetMethod() != null)
                     {

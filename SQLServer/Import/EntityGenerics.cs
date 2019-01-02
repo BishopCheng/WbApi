@@ -51,7 +51,7 @@ namespace SQLServer
             {
                 if(t_ == null)
                 {
-                    t_ = t;
+                    t_ = new T();
                 }
                 return t_;
             }

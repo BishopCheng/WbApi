@@ -139,7 +139,7 @@ namespace SQLServer
             DbCommand dbcommad = null;
             try
             {
-                using (CreateDbCommand(sqlStr, lstParmeters, CommandType.Text))
+                using (dbcommad= CreateDbCommand(sqlStr, lstParmeters, CommandType.Text))
                 {
                     DbDataReader dtReader = dbcommad.ExecuteReader();    //执行sql语句
                     IEnumerable<T> result = dtReader.ReadToList<T>();    //将执行后得到的结果 写入IEnumerable
