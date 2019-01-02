@@ -66,7 +66,7 @@ namespace SQLServer
         /// <param name="providTypeName">驱动类型名称</param>
         public ExcuteImport(string connectionString,string providTypeName) {
             ConnectionString = connectionString;
-            providerFactory = ProviderFactory.GetProviderFactory(ProviderFactory.GetDbProviderType(providTypeName));
+            providerFactory = ProviderFactory.GetProviderFactory(ProviderFactory.GetDbProviderType(providTypeName));  
             if(providerFactory == null)
             {
                 throw new ArgumentException("不能为给定值providertype不会加载dbproviderfactory");
