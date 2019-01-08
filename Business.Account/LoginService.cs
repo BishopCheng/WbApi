@@ -7,6 +7,7 @@ using APIServer.DataAccess;
 using CacheServers;
 using ApiServer.Entity.TableModel.ADO;
 using ValidateServer;
+using CacheServers;
 
 namespace Business.Account
 {
@@ -17,7 +18,7 @@ namespace Business.Account
     /// </summary>
     public class LoginService
     {
-        public string Login(string userName,string pwd,ref t_user userModel)
+        public string Login(string userName,string pwd,string validateCode, ref t_user userModel)
         {
             userModel = new t_user();
             try
@@ -50,6 +51,9 @@ namespace Business.Account
                     userModel.wrongCounts += 1;
                     return "密码输入错误，请重新输入！";
                 }
+
+                //验证码
+                
 
                 userModel.lastLoginTime = DateTime.Now;
                 string result = LoginingWrite(userModel);
