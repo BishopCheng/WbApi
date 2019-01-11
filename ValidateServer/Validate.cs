@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.Common;
+using System.Reflection;
 
 namespace ValidateServer
 {
@@ -118,6 +119,37 @@ namespace ValidateServer
                 ghics.Dispose();                           //回收资源
                 codeString = CodeStr + "";                 //通过out返回要验证的string
                 return ms;                                 //返回数据流
+            }
+
+
+            /// <summary>
+            /// 将验证码保存成文件后返回文件地址
+            /// </summary>
+            /// <param name="ms"></param>
+            /// <returns></returns>
+            public static string FileContenBulid(MemoryStream ms)
+            {
+                string filepath = Assembly.GetEntryAssembly().Location;
+                string rootPath = filepath.Substring(0, filepath.Length - 13);
+                Random sr = new Random();
+                int code = sr.Next(1, 10000);
+                string codeStr = Convert.ToString(code);
+                try
+                {
+                    //FileStream fs = new FileStream(filepath + Convert.ToString(code) + ".jpeg", FileMode.Create, System.IO.FileAccess.Write);
+                    Image img = Image.FromStream(ms);
+                    img.Save(rootPath + codeStr + ".jpeg", System.DrawingCore.Imaging.ImageFormat.Jpeg);
+                    img.Dispose();
+                    return  codeStr + ".jpeg";
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+                
+                
+                
             }
         }
     }

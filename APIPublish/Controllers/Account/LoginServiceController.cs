@@ -11,6 +11,9 @@ using CacheServers;
 using System.DrawingCore;
 using System.DrawingCore.Imaging;
 using System.IO;
+using Microsoft.AspNetCore.Cors;
+using Configs;
+using APIPublish.Config;
 
 namespace APIPublish.Controllers.Account
 {
@@ -19,7 +22,7 @@ namespace APIPublish.Controllers.Account
     /// 作者:程淮榕
     /// 日期：2018-12-28
     /// </summary>
-
+    [EnableCors("any")]//允许跨域
     public class LoginServiceController:BaseController
     {
         /// <summary>
@@ -39,12 +42,23 @@ namespace APIPublish.Controllers.Account
 
         public IActionResult GetValidateCode()
         {
-            //获取验证码(图片流),然后回传
+            //获取验证码地址
             var img = new MemoryStream();
             string validateCode = "";
             img = Tools.identifyingCodeBulid.CreateValidateCode(out validateCode);
-            return File(img, "image/jpeg");
+            string path = "";
+            string  fileName = Tools.identifyingCodeBulid.FileContenBulid(img);
 
+            //构造网络图片地址
+            //获取当前主机IP,从配置文件读取
+            AppConfigurationService appConfigurtaionService = new AppConfigurationService();
+            ServerUrl serverUrl  = appConfigurtaionService.GetAppSetting<ServerUrl>("Base", "appsettings.json");
+            string currentIp = serverUrl.CurrentIp;
+            string port = serverUrl.CurrentPort;
+
+            string dicpath = "http://" + currentIp + ":" + port + "/WEBAPIPublish/" + fileName;
+
+            return SuccessRes(dicpath);
         }
     }
 }
