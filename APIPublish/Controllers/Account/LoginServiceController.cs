@@ -14,6 +14,7 @@ using System.IO;
 using Microsoft.AspNetCore.Cors;
 using Configs;
 using APIPublish.Config;
+using Microsoft.AspNetCore.Hosting;
 
 namespace APIPublish.Controllers.Account
 {
@@ -23,8 +24,17 @@ namespace APIPublish.Controllers.Account
     /// 日期：2018-12-28
     /// </summary>
     [EnableCors("any")]//允许跨域
-    public class LoginServiceController:BaseController
+    public class LoginServiceController:BaseController 
     {
+        /// <summary>
+        /// 注入HostingEnvironment组件
+        /// </summary>
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public LoginServiceController(IHostingEnvironment hostingenvironment)
+        {
+            _hostingEnvironment = hostingenvironment;
+        }
         /// <summary>
         /// 登陆服务
         /// </summary>
@@ -46,19 +56,23 @@ namespace APIPublish.Controllers.Account
             var img = new MemoryStream();
             string validateCode = "";
             img = Tools.identifyingCodeBulid.CreateValidateCode(out validateCode);
-            string path = "";
-            string  fileName = Tools.identifyingCodeBulid.FileContenBulid(img);
+            return File(img.ToArray(), "image/jpeg");
 
-            //构造网络图片地址
-            //获取当前主机IP,从配置文件读取
-            AppConfigurationService appConfigurtaionService = new AppConfigurationService();
-            ServerUrl serverUrl  = appConfigurtaionService.GetAppSetting<ServerUrl>("Base", "appsettings.json");
-            string currentIp = serverUrl.CurrentIp;
-            string port = serverUrl.CurrentPort;
 
-            string dicpath = "http://" + currentIp + ":" + port + "/WEBAPIPublish/" + fileName;
 
-            return SuccessRes(dicpath);
+            //string path = "";
+            //string  fileName = Tools.identifyingCodeBulid.FileContenBulid(img);
+
+            ////构造网络图片地址
+            ////获取当前主机IP,从配置文件读取
+            //AppConfigurationService appConfigurtaionService = new AppConfigurationService();
+            //ServerUrl serverUrl  = appConfigurtaionService.GetAppSetting<ServerUrl>("ServerUrl", "appsettings.json");
+            //string currentIp = serverUrl.CurrentIp;
+            //string port = serverUrl.CurrentPort;
+
+            //string dicpath = "http://" + currentIp + ":" + port + "/WEBAPIPublish/" + fileName;
+
+            //return SuccessRes(dicpath);
         }
     }
 }

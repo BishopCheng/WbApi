@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.HttpOverrides;
+using APIPublish.Config;
+using Configs;
 
 namespace APIPublish
 {
@@ -36,7 +38,12 @@ namespace APIPublish
                     .AllowCredentials(); //处理Cookie
 
                 });
-            });            
+            });
+
+            //实体绑定
+            //services.Configure<ServerUrl>(Configuration.GetSection("ServerUrl"));
+            //var serverUrl = new ServerUrl();
+            //Configuration.Bind("ServerUrl", serverUrl);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
