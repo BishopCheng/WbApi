@@ -59,7 +59,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIService", "APIService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Account", "Business.Account\Business.Account.csproj", "{2702A76E-2F46-4CB4-9E6D-0FB8BFDC2960}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIPublish", "APIPublish\APIPublish.csproj", "{5200CB66-56BF-4B80-9048-20DAEB35885D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIPublish", "APIPublish\APIPublish.csproj", "{5200CB66-56BF-4B80-9048-20DAEB35885D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteSystem", "SiteSystem\SiteSystem.csproj", "{78918D11-5668-4D65-887E-C68ABD196B3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +149,10 @@ Global
 		{5200CB66-56BF-4B80-9048-20DAEB35885D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5200CB66-56BF-4B80-9048-20DAEB35885D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5200CB66-56BF-4B80-9048-20DAEB35885D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78918D11-5668-4D65-887E-C68ABD196B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78918D11-5668-4D65-887E-C68ABD196B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78918D11-5668-4D65-887E-C68ABD196B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78918D11-5668-4D65-887E-C68ABD196B3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
