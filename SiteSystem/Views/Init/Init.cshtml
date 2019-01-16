@@ -141,6 +141,10 @@
                         { name: 'validateCode', value: validatecode }
                     ],
                     async: true,
+                    error: function (request) {
+                        layer.alert(request.responseText, { icon: 2 });
+                        layer.alert('链接失败', { icon: 2 });
+                     },
                     success: function (data) {
                         if (data.length > 0) {
                             layer.alert(data, { icon: 2 });
@@ -150,6 +154,10 @@
                             window.location = "/Init/CMSDesk";
                         }
                     },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        layer.closeAll('loading');
+
+                    }
                 });
             }
     </script>
