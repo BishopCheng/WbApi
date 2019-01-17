@@ -31,7 +31,7 @@ namespace Business.Account
                     loginResult = "1";
                     return "用户不存在，请注册后再登陆！";
                 }
-                if (!userModel.status.Equals("1"))
+                if (!userModel.status.ToString().Equals("1"))
                 {
                     loginResult = "3";
                     return "用户状态异常，请联系管理员！";
@@ -48,12 +48,10 @@ namespace Business.Account
                 {
                     //登陆密码错误
                     loginResult = "2";
-                    userModel.wrongCounts += 1;
+                    userModel.wrongCounts +=1;
+                    LoginingWrite(userModel);
                     return "密码输入错误，请重新输入！";
                 }
-
-                //验证码
-                
 
                 userModel.lastLoginTime = DateTime.Now;
                 string result = LoginingWrite(userModel);
@@ -61,7 +59,7 @@ namespace Business.Account
                 if (result.Length < 1)
                 {
                     loginResult = "10";
-                    result = "OK";
+                    
                 }
                 else
                 {
@@ -97,5 +95,7 @@ namespace Business.Account
                 throw ex;
             }
         }
+
+        
     }
 }

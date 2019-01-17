@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Business.Account;
 using ApiServer.Entity.TableModel.ADO;
+using System.IO;
+using ValidateServer;
 
 namespace Infomation.Controllers
 {
@@ -35,11 +37,29 @@ namespace Infomation.Controllers
 
             t_user userModel = new t_user();
 
+            //先判断验证码是否正确,如果不正确则直接返回
+            if (!validateCode.Equals(HttpContext.Session.GetString("validate"))) { return Content("验证码不正确！"); }
             //调用业务逻辑层
             LoginService loginService = new LoginService();
             string msg = "";
             msg = loginService.Login(userName, passWord, validateCode, ref userModel);
             return Content(msg);
+        }
+
+        /// <summary>
+        /// 获取验证码
+        /// </summary>
+        /// <returns></returns>
+
+        public ActionResult GetValidataCode()
+        {
+            //获取验证码地址
+            var img = new MemoryStream();
+            string validateCode = "";
+            img = Tools.identifyingCodeBulid.CreateValidateCode(out validateCode);
+            //将验证码存入Session中
+            HttpContext.Session.SetString("validate", validateCode);
+            return File(img.ToArray(), "image/jpeg");
         }
 
         /// <summary>
