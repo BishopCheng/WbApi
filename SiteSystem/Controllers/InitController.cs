@@ -34,7 +34,8 @@ namespace Infomation.Controllers
             string userName = form["userName"];
             string passWord = form["password"];
             string validateCode = form["validateCode"];
-
+            if (string.IsNullOrEmpty(userName)) { return Content("用户名不能为空！"); }
+            if (string.IsNullOrEmpty(passWord)) { return Content("密码不能为空！"); }
             t_user userModel = new t_user();
 
             //先判断验证码是否正确,如果不正确则直接返回

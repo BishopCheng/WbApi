@@ -34,6 +34,14 @@ namespace Infomation
                 options.AreaViewLocationFormats.Add("/Views/{2}/{0}.cshtml");
                 options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
             });
+
+            //注入Session
+            services.AddSession(options => {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Name = "APIServer.Session";
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                options.IdleTimeout = TimeSpan.FromDays(1);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +58,8 @@ namespace Infomation
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseSession();  //注入Session
 
             app.UseStaticFiles();
 
