@@ -25,7 +25,8 @@
 
     <link rel="stylesheet" type="text/css" href="/jqgrid/css/ui.jqgrid-bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="/page/list.css"/>
-   
+    <link rel="stylesheet" type="text/css" href="/hui-admin/lib/layer/2.4/skin/layer.css"/>
+    
     <!--[if IE 6]>
     <script type="text/javascript" src="/rs/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -35,7 +36,7 @@
 <body>
     @RenderBody()
 
-    <script type="text/javascript" src="/rs/jquery/1.9.1/jquery.min.js"></script>
+    @*<script type="text/javascript" src="/rs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="/rs/layer/2.4/layer.js"></script>
     <script type="text/javascript" src="/rs/h-ui/js/H-ui.min.js"></script>
     <script type="text/javascript" src="/rs/h-ui.admin/js/H-ui.admin.js"></script>
@@ -45,8 +46,20 @@
 
     <script type="text/javascript" src="/rs/laypage/1.2/laypage.js"></script>
     <script type="text/javascript" src="/rs/page/base.js"></script>
-    <script type="text/javascript" src="/rs/page/list.js"></script>
+    <script type="text/javascript" src="/rs/page/list.js"></script>*@
 
+    <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/hui-admin/lib/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script>
+    <script type="text/javascript" src="/hui-admin/js/h-ui.admin.pro.js"></script>
+
+    <script type="text/javascript" src="/jqgrid/js/grid.locale-cn.js"></script>
+    <script type="text/javascript" src="/jqgrid/src/jquery.jqGrid.js"></script>
+
+
+    <script type="text/javascript" src="/hui-admin/lib/laypage/1.2/laypage.js"></script>
+    <script type="text/javascript" src="/page/base.js"></script>
+    <script type="text/javascript" src="/page/list.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
