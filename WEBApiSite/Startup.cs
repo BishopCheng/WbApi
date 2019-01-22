@@ -43,6 +43,12 @@ namespace WEBApiSite
                     .AllowCredentials();     //允许证书（处理cookie ）
                 });
             });
+            
+
+            //实体注入依赖
+             
+            
+
             services.AddMvc();
         }
 

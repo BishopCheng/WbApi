@@ -28,11 +28,25 @@ namespace ApiServer.Entity.TableModel.ADO
             set { userGroupName_ = value; }
         }
 
-        private string parentId_;
-        public string parentId
+        private string systemCode_;
+        public string systemCode
         {
-            get { return parentId_; }
-            set { parentId_ = value; }
+            get { return systemCode_; }
+            set { systemCode_ = value; }
+        }
+
+        private string status_;
+        public string status
+        {
+            get { return status_; }
+            set { status_ = value; }
+        }
+
+        private string instruction_;
+        public string instruction
+        {
+            get { return instruction_; }
+            set { instruction_ = value; }
         }
 
         private string remark_;
@@ -40,13 +54,6 @@ namespace ApiServer.Entity.TableModel.ADO
         {
             get { return remark_; }
             set { remark_ = value; }
-        }
-
-        private int? status_;
-        public int? status
-        {
-            get { return status_; }
-            set { status_ = value; }
         }
 
 		[JsonIgnore]
@@ -80,9 +87,10 @@ namespace ApiServer.Entity.TableModel.ADO
             t_usergroup model = new t_usergroup();
 			model.userGroupId_ = dataRow["userGroupId"] as string;
 			model.userGroupName_ = dataRow["userGroupName"] as string;
-			model.parentId_ = dataRow["parentId"] as string;
+			model.systemCode_ = dataRow["systemCode"] as string;
+			model.status_ = dataRow["status"] as string;
+			model.instruction_ = dataRow["instruction"] as string;
 			model.remark_ = dataRow["remark"] as string;
-			model.status_ = dataRow["status"] as int?;
             
 			return model;
         }
@@ -92,9 +100,10 @@ namespace ApiServer.Entity.TableModel.ADO
             t_usergroup model = new t_usergroup();
             model.userGroupId_ = this.userGroupId;
             model.userGroupName_ = this.userGroupName;
-            model.parentId_ = this.parentId;
-            model.remark_ = this.remark;
+            model.systemCode_ = this.systemCode;
             model.status_ = this.status;
+            model.instruction_ = this.instruction;
+            model.remark_ = this.remark;
             return model;
         }
 
@@ -104,9 +113,10 @@ namespace ApiServer.Entity.TableModel.ADO
             {
 				case "userGroupId": return this.userGroupId;
 				case "userGroupName": return this.userGroupName;
-				case "parentId": return this.parentId;
-				case "remark": return this.remark;
+				case "systemCode": return this.systemCode;
 				case "status": return this.status;
+				case "instruction": return this.instruction;
+				case "remark": return this.remark;
 
                 default: return null;
             }
@@ -118,9 +128,10 @@ namespace ApiServer.Entity.TableModel.ADO
             {
 				case "userGroupId": this.userGroupId = (string)value; break;
 				case "userGroupName": this.userGroupName = (string)value; break;
-				case "parentId": this.parentId = (string)value; break;
+				case "systemCode": this.systemCode = (string)value; break;
+				case "status": this.status = (string)value; break;
+				case "instruction": this.instruction = (string)value; break;
 				case "remark": this.remark = (string)value; break;
-				case "status": this.status = (int?)value; break;
             }
         }
 
@@ -130,9 +141,10 @@ namespace ApiServer.Entity.TableModel.ADO
             {
 				case "userGroupId": return true;
 				case "userGroupName": return true;
-				case "parentId": return true;
-				case "remark": return true;
+				case "systemCode": return true;
 				case "status": return true;
+				case "instruction": return true;
+				case "remark": return true;
 				
                 default: return false;
             }
@@ -144,9 +156,10 @@ namespace ApiServer.Entity.TableModel.ADO
             {
 				case "userGroupId": return t_usergroup._.userGroupId;
 				case "userGroupName": return t_usergroup._.userGroupName;
-				case "parentId": return t_usergroup._.parentId;
-				case "remark": return t_usergroup._.remark;
+				case "systemCode": return t_usergroup._.systemCode;
 				case "status": return t_usergroup._.status;
+				case "instruction": return t_usergroup._.instruction;
+				case "remark": return t_usergroup._.remark;
                 default: return null;
             }
         }
@@ -162,17 +175,21 @@ namespace ApiServer.Entity.TableModel.ADO
             {
                 lst.Add(new CompareEntity("userGroupName", this.userGroupName + ""));
             }
-            if (this.parentId != ((t_usergroup)newModel).parentId)
+            if (this.systemCode != ((t_usergroup)newModel).systemCode)
             {
-                lst.Add(new CompareEntity("parentId", this.parentId + ""));
-            }
-            if (this.remark != ((t_usergroup)newModel).remark)
-            {
-                lst.Add(new CompareEntity("remark", this.remark + ""));
+                lst.Add(new CompareEntity("systemCode", this.systemCode + ""));
             }
             if (this.status != ((t_usergroup)newModel).status)
             {
                 lst.Add(new CompareEntity("status", this.status + ""));
+            }
+            if (this.instruction != ((t_usergroup)newModel).instruction)
+            {
+                lst.Add(new CompareEntity("instruction", this.instruction + ""));
+            }
+            if (this.remark != ((t_usergroup)newModel).remark)
+            {
+                lst.Add(new CompareEntity("remark", this.remark + ""));
             }
             return lst;
         }
@@ -189,12 +206,12 @@ namespace ApiServer.Entity.TableModel.ADO
 
         public override string GetInsertPlate()
         {
-            return "INSERT t_usergroup(userGroupId, userGroupName, parentId, remark, status) VALUES("+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"userGroupId, "+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"userGroupName, "+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"parentId, "+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"remark, "+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"status)";
+            return "INSERT t_usergroup(userGroupId, userGroupName, systemCode, status, instruction, remark) VALUES("+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"userGroupId, "+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"userGroupName, "+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"systemCode, "+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"status, "+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"instruction, "+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"remark)";
         }
 
         public override string GetUpdatePlate()
         {
-            return "UPDATE t_usergroup SET userGroupName="+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"userGroupName, parentId="+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"parentId, remark="+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"remark, status="+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"status WHERE userGroupId=" + dbplatform.Instance.ExcuteImport.sqlSetting.Flag + "userGroupId";
+            return "UPDATE t_usergroup SET userGroupName="+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"userGroupName, systemCode="+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"systemCode, status="+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"status, instruction="+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"instruction, remark="+dbplatform.Instance.ExcuteImport.sqlSetting.Flag+"remark WHERE userGroupId=" + dbplatform.Instance.ExcuteImport.sqlSetting.Flag + "userGroupId";
         }
 
         public override List<DbParameter> GetFullParameters()
@@ -202,9 +219,10 @@ namespace ApiServer.Entity.TableModel.ADO
             List<DbParameter> lstDbParameter = new List<DbParameter>();
             lstDbParameter.Add(dbplatform.Instance.ExcuteImport.CreateDbParameter(dbplatform.Instance.ExcuteImport.sqlSetting.Flag + "userGroupId", this.userGroupId));
             lstDbParameter.Add(dbplatform.Instance.ExcuteImport.CreateDbParameter(dbplatform.Instance.ExcuteImport.sqlSetting.Flag + "userGroupName", this.userGroupName));
-            lstDbParameter.Add(dbplatform.Instance.ExcuteImport.CreateDbParameter(dbplatform.Instance.ExcuteImport.sqlSetting.Flag + "parentId", this.parentId));
-            lstDbParameter.Add(dbplatform.Instance.ExcuteImport.CreateDbParameter(dbplatform.Instance.ExcuteImport.sqlSetting.Flag + "remark", this.remark));
+            lstDbParameter.Add(dbplatform.Instance.ExcuteImport.CreateDbParameter(dbplatform.Instance.ExcuteImport.sqlSetting.Flag + "systemCode", this.systemCode));
             lstDbParameter.Add(dbplatform.Instance.ExcuteImport.CreateDbParameter(dbplatform.Instance.ExcuteImport.sqlSetting.Flag + "status", this.status));
+            lstDbParameter.Add(dbplatform.Instance.ExcuteImport.CreateDbParameter(dbplatform.Instance.ExcuteImport.sqlSetting.Flag + "instruction", this.instruction));
+            lstDbParameter.Add(dbplatform.Instance.ExcuteImport.CreateDbParameter(dbplatform.Instance.ExcuteImport.sqlSetting.Flag + "remark", this.remark));
             return lstDbParameter;
         }
 
@@ -214,9 +232,10 @@ namespace ApiServer.Entity.TableModel.ADO
     {
         public Column userGroupId = new Column("t_usergroup.userGroupId", dbplatform.Instance.ExcuteImport);
         public Column userGroupName = new Column("t_usergroup.userGroupName", dbplatform.Instance.ExcuteImport);
-        public Column parentId = new Column("t_usergroup.parentId", dbplatform.Instance.ExcuteImport);
-        public Column remark = new Column("t_usergroup.remark", dbplatform.Instance.ExcuteImport);
+        public Column systemCode = new Column("t_usergroup.systemCode", dbplatform.Instance.ExcuteImport);
         public Column status = new Column("t_usergroup.status", dbplatform.Instance.ExcuteImport);
+        public Column instruction = new Column("t_usergroup.instruction", dbplatform.Instance.ExcuteImport);
+        public Column remark = new Column("t_usergroup.remark", dbplatform.Instance.ExcuteImport);
     }
 }
 
