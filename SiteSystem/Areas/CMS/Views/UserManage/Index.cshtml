@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "~Views/Shared/_ListLayout.cshtml";
 }
 
 <!--_meta 作为公共模版分离出去-->
@@ -46,7 +46,7 @@
                 <dt class="Hui-menu-title"><i class="Hui-iconfont">&#xe616;</i> 用户管理<i class="Hui-iconfont Hui-admin-menu-dropdown-arrow">&#xe6d5;</i></dt>
                 <dd class="Hui-menu-item">
                     <ul>
-                        <li><a href="article-list.html" title="用户管理">用户管理</a></li>
+                        <li><a data-href="/CMS/UserManage/Index" href="javascript:(0)" title="用户管理">用户管理</a></li>
                         <li><a onclick="article_add('添加资讯','article-add.html')" href="javascript:;" title="新增用户">新增用户</a></li>
                     </ul>
                 </dd>
