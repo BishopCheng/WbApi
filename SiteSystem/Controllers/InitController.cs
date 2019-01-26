@@ -71,5 +71,10 @@ namespace Infomation.Controllers
         {
             return View();
         }
+
+        public IActionResult CMSContent()
+        {
+            return View();
+        }
     }
 }
