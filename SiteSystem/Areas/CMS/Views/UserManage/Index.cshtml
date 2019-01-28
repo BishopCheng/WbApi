@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = "~Views/Shared/_ListLayout.cshtml";
+    Layout = "/Views/Shared/_ListLayout.cshtml";
 }
 
 <!--_meta 作为公共模版分离出去-->
@@ -33,60 +33,10 @@
     <meta name="description" content="h-ui.admin.pro v1.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
-    <!--_menu 作为公共模版分离出去-->
-    <aside class="Hui-admin-aside-wrapper">
-        <div class="Hui-admin-logo-wrapper">
-            <a class="logo navbar-logo" href="/aboutHui.shtml">
-                <i class="va-m iconpic global-logo"></i>
-                <span class="va-m">H-ui.admin</span>
-            </a>
-        </div>
-        <div class="Hui-admin-menu-dropdown bk_2">
-            <dl id="menu-article" class="Hui-menu">
-                <dt class="Hui-menu-title"><i class="Hui-iconfont">&#xe616;</i> 用户管理<i class="Hui-iconfont Hui-admin-menu-dropdown-arrow">&#xe6d5;</i></dt>
-                <dd class="Hui-menu-item">
-                    <ul>
-                        <li><a data-href="/CMS/UserManage/Index" href="javascript:(0)" title="用户管理">用户管理</a></li>
-                        <li><a onclick="article_add('添加资讯','article-add.html')" href="javascript:;" title="新增用户">新增用户</a></li>
-                    </ul>
-                </dd>
-            </dl>
-        </div>
-    </aside>
-    <div class="Hui-admin-aside-mask"></div>
-    <!--/_menu 作为公共模版分离出去-->
-
-    <div class="Hui-admin-dislpayArrow">
-        <a href="javascript:void(0);" onClick="displaynavbar(this)">
-            <i class="Hui-iconfont Hui-iconfont-left">&#xe6d4;</i>
-            <i class="Hui-iconfont Hui-iconfont-right">&#xe6d7;</i>
-        </a>
-    </div>
+  
 
     <section class="Hui-admin-article-wrapper">
-        <!--_header 作为公共模版分离出去-->
-        <header class="Hui-navbar">
-            <div class="navbar">
-                <div class="container-fluid clearfix">
-                    <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar">
-                        <ul class="clearfix">
-                            <li>超级管理员</li>
-                            <li class="dropDown dropDown_hover">
-                                <a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
-                                <ul class="dropDown-menu menu radius box-shadow">
-                                    <li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
-                                    <li><a href="#">切换账户</a></li>
-                                    <li><a href="#">退出</a></li>
-                                </ul>
-                            </li>
-                            <li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
         <!--/_header 作为公共模版分离出去-->
-
         <div class="Hui-admin-article">
             <nav class="breadcrumb" style="background-color:#fff;padding: 0 24px">
                 首页
@@ -169,11 +119,16 @@
         </div>
     </section>
 
-    <!--_footer 作为公共模版分离出去-->
+    <!--_footer 作为公共模版分离出去（无效脚本）-->
     <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
     <script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
     <script type="text/javascript" src="static/h-ui.admin.pro/js/h-ui.admin.pro.min.js"></script>
+
+    <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/hui-admin/lib/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="/static/h-ui/js/H-ui.min.js"></script>
+    <script type="text/javascript" src="/hui-admin/js/h-ui.admin.pro.min.js"></script>
     <!--/_footer /作为公共模版分离出去-->
     <!--请在下方写此页面业务相关的脚本-->
     <script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
