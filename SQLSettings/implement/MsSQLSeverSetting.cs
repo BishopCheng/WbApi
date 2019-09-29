@@ -7,9 +7,9 @@ namespace SQLSettings
     /// <summary>
     /// MicorsoftSQLServer数据库接口实现
     /// </summary>
-    public class MsSQLSeverSetting:ISetting
+    public class MsSQLSeverSetting : ISetting
     {
-       string ISetting.Flag
+        string ISetting.Flag
         {
             get
             {
@@ -17,43 +17,46 @@ namespace SQLSettings
             }
         }
 
-        string ISetting.DateFiled_sql => throw new NotImplementedException();
+        string ISetting.DateFiled_sql { get{return "{0}"; } }
 
-        string ISetting.ColumnExists_sql => throw new NotImplementedException();
+        string ISetting.ColumnExists_sql { get { return "select count(*) from systemcolumns where [id]=object_id(?tableName) and [name]=?ColumnName"; } }
 
-        string ISetting.ColumnExists_tableName => throw new NotImplementedException();
+        string ISetting.ColumnExists_tableName { get { return "?tableName"; } }
 
-        string ISetting.ColumExists_columnName => throw new NotImplementedException();
+        string ISetting.ColumExists_columnName { get { return "?columnName"; } }
 
-        string ISetting.GetMaxID_sql => throw new NotImplementedException();
+        string ISetting.GetMaxID_sql { get { return "select max({0}) from ({1})"; } }
 
+        //待定
         string ISetting.TabExists_sql => throw new NotImplementedException();
 
-        string ISetting.Column_GetDate => throw new NotImplementedException();
+        string ISetting.Column_GetDate { get { return "getdate()"; } }
 
-        string ISetting.GetServerDate_sql => throw new NotImplementedException();
+        string ISetting.GetServerDate_sql { get { return "select convert(char(10),getdate(),120)"; } }
 
-        string ISetting.WriteClick_sql => throw new NotImplementedException();
+        string ISetting.WriteClick_sql { get { return "UPDATE {0} SET {1}={2}+{1} WHERE {3}={4}"; } }
 
-        string ISetting.BantchDelete_sql => throw new NotImplementedException();
+        string ISetting.BantchDelete_sql { get { return "DELETE {0} WHERE {1}={2}"; } }
 
-        string ISetting.DeleteModel_sql => throw new NotImplementedException();
+        string ISetting.DeleteModel_sql { get { return "DELETE {0} WHERE {1}=?PrimaryKey"; } }
 
-        string ISetting.DeleteModel_sql_In => throw new NotImplementedException();
+        string ISetting.DeleteModel_sql_In { get { return "DELETE {0} WHERE {1} IN {2}"; } }
 
-        string ISetting.DeleteModel_PrimaryKey => throw new NotImplementedException();
+        string ISetting.DeleteModel_PrimaryKey { get { return "?PrimaryKey"; } }
 
-        string ISetting.DeleteModel_primaryKeyList => throw new NotImplementedException();
+        string ISetting.DeleteModel_primaryKeyList { get { return "?PrimaryKeyList"; } }
 
-        string ISetting.DeleteModel_sql_WhereClip => throw new NotImplementedException();
+        string ISetting.DeleteModel_sql_WhereClip { get { return "DELETE FROM {0} WHERE {1}"; } }
 
-        string ISetting.First_sql => throw new NotImplementedException();
+        string ISetting.First_sql { get { return "SELECT TOP (1) * FROM {0}{1}"; } }
 
-        string ISetting.Insert_sql => throw new NotImplementedException();
+        string ISetting.Last_sql { get { return "SELECT TOP (1) * FROM {0}{1} DESC"; } }
 
-        string ISetting.Update_sql => throw new NotImplementedException();
+        string ISetting.Insert_sql { get { return "INSERT {0} {1}"; } }
 
-        string ISetting.IsExist_sql => throw new NotImplementedException();
+        string ISetting.Update_sql { get { return "UPDATE {0} {1} WHERE {2}"; } }
+
+        string ISetting.IsExist_sql { get { return "" } }
 
         string ISetting.IsExist_sql_WhereClip => throw new NotImplementedException();
 

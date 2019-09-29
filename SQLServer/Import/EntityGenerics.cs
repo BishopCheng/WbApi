@@ -677,6 +677,16 @@ namespace SQLServer
             return Enumerable.FirstOrDefault<T>(source);
         }
 
+
+        public T ToLast()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            GetCondition(ref stringBuilder);
+            string sqlStr = string.Format(dbExcute.sqlSetting.Last_sql, t.SqlTableName, stringBuilder.ToString());
+            IEnumerable<T> source = dbExcute.Excute<T>(sqlStr, lstParmeters);
+            return Enumerable.FirstOrDefault<T>(source);
+        }
+
         public IEnumerable<T> ToList()
         {
             return dbExcute.Excute<T>(ToString(), lstParmeters);
