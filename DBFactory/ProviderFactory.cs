@@ -114,7 +114,7 @@ namespace DBFactory
             {
                 return new MySqlSetting();
             }
-            else
+            else if(dbProviderTypeName == "Oracle.ManagedDataAccess.Client")
             {
                 return new MsSQLSeverSetting();
             }

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-
-namespace SQLSettings
+namespace SQLSettings.implement
 {
-    /// <summary>
-    /// MicorsoftSQLServer数据库接口实现
-    /// </summary>
-    public class MsSQLSeverSetting : ISetting
+    public class OracleSetting : ISetting
     {
         string ISetting.Flag
         {
@@ -17,9 +14,9 @@ namespace SQLSettings
             }
         }
 
-        string ISetting.DateFiled_sql { get{return "{0}"; } }
+        string ISetting.DateFiled_sql { get { return "{0}"; } }
 
-        string ISetting.ColumnExists_sql { get { return "select count(*) from systemcolumns where [id]=object_id(?tableName) and [name]=?ColumnName"; } }
+        string ISetting.ColumnExists_sql { get { return "select count(*) from user_tab_columns where TABLE_NAME =?tableName and  COLUMN_NAME=?ColumnName"; } }
 
         string ISetting.ColumnExists_tableName { get { return "?tableName"; } }
 
@@ -28,7 +25,7 @@ namespace SQLSettings
         string ISetting.GetMaxID_sql { get { return "select max({0}) from ({1})"; } }
 
         //待定
-        string ISetting.TabExists_sql => throw new NotImplementedException();
+        string ISetting.TabExists_sql { get { return "" } }
 
         string ISetting.Column_GetDate { get { return "getdate()"; } }
 
@@ -170,7 +167,7 @@ namespace SQLSettings
 
         string ISetting.ConditionItem_BetweenColumn => throw new NotImplementedException();
 
-        string ISetting.ConditionItem_BetweenObject => throw new NotImplementedException();       
+        string ISetting.ConditionItem_BetweenObject => throw new NotImplementedException();
 
         string ISetting.ConditionItem_NotEquals_object => throw new NotImplementedException();
 
